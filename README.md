@@ -9,4 +9,4 @@ Team Members
 - Haitham Awad (hha9)
 - Noah Paul (ndp)
 
-To contact us, send an email to UCID@njit.edu. Each team member's UCID is listed in parenthesis above
+To contact us, send an email to [UCID][at]njit.edu. Each team member's UCID is listed in parenthesis above
