@@ -25,7 +25,7 @@ def test_duplicate_emails():
         "username": "user123"
     })
 
-    response_duplicate = client.post("/users", json={
+    response_duplicate = client.post("/api/register", json={
         "email": "user@example.com",
         "password": "otherSecurePassword",
         "username": "user321"
