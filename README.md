@@ -1,6 +1,21 @@
 # AI Powered Resume Analyzer
 
-This project will serve as a platform for users to get feedback on improving resumes in addition to getting personalized job recommendations based on their qualifications
+High Level Project Overview 
+
+This project will serve as a platform for users to get feedback with an NLP model on improving resumes in addition to getting personalized job recommendations based on their qualifications. Our goals include having a proper fullstack site using React, Python, and utilizing some NLP model.
+
+Users would be able to sign up, log in, upload their resume, and recieve AI feedback on their resume to assist in job applications. 
+
+Goals: 
+- User can upload resume and application can conduct text parsing
+- NLP analysis for suggesting skills and keyword formatting 
+- Job matching with dataset of job descriptions
+- User can register, log in, log out, and view dashboard effectively
+
+
+**[Trello Board](https://trello.com/invite/b/673eacd72cbff9b6965ef40d/ATTI7663db6d740e452040ba181d65c238e9AFC9EA63/cs490-tbd-team-9)**
+
+**[Requirements Github](https://github.com/njit-prof-bill/resume_analyzer_documentation/tree/main)**
 
 Team Members
 - Jeremy Kurian (jck44)
@@ -10,3 +25,13 @@ Team Members
 - Noah Paul (ndp)
 
 To contact us, send an email to [UCID][at]njit.edu. Each team member's UCID is listed in parenthesis above
+
+
+Setting up Project locally
+
+Frontend 
+
+npm install 
+npm run dev 
+
+Backend 
