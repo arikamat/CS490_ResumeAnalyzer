@@ -31,12 +31,13 @@ Setting up Project locally
 
 # Frontend 
 
-``npm install`` 
-``npm run dev``
+1. ``npm install`` 
+2. ``npm run dev``
 
 # Backend 
-``pip install -r backend/requirements.txt``
-``uvicorn backend.main:app --reload``
+1. ``pip install -r backend/requirements.txt``
+2. ``uvicorn backend.main:app --reload``
 
 # Backend Tests with code coverage requirement of 80%
-``pytest --cov=backend --cov-report=term-missing --cov-fail-under=80``
+1. ``pip install -r backend/requirements.txt``
+2. ``pytest --cov=backend --cov-report=term-missing --cov-fail-under=80``
