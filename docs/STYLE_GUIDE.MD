@@ -2,13 +2,15 @@
 
 *All implemented tasks must have comments on top of file/group of code describing what has been implemented, input, and output (including types if applicable)*
 
+Time permitted will make lint
+
 ## Front End
   
-Basic Rules
+**Basic Rules**
 - Only one component per file 
 - JSX syntax  
 
-React Components should follow 
+**React Components should follow**
 - File names should be Pascal Case **`RegistrationForm.jsx`**
 - Use .jsx for file extensions
 - Use Pascal Case for component naming **`RegistrationForm`**
@@ -18,11 +20,11 @@ React Components should follow
 - Have alt for all img tags **`<img src="thing.jpg" alt="This is a thing"/>`**
 - Use arrow functions to go over variables in loops or with mapping
 
-Testing Naming Convention
+**Testing Naming Convention**
 - Use the same name as the component or module being tested, with a `.test.jsx` suffix.
   - Example: For `Button.jsx`, name the test file `Button.test.jsx`.
 
-Test Description
+**Test Description**
 - Use clear and descriptive `it` or `test` statements to describe what the test does.
   - Example:
     ```javascript
@@ -31,7 +33,7 @@ Test Description
     });
     ```
 
-Test Grouping
+**Test Grouping**
 - Group related tests using `describe` blocks.
   - Example when testing a **`Button Component`**:
     ```javascript
@@ -50,13 +52,13 @@ Test Grouping
 
 More simple rules 
 
-Basic rules
+**Basic rules**
 - Use snake case for functions **`login_var`**
 - Snake case for variables
 - Snake case for file names
 - File names should be short and relevant for example **`user.py`** for the router file that has user related api 
 
-Tests 
+**Tests**
 - Any files used in tester files should be put in **`test_files`** folder and be prefaced with **`test_[filetype]_[num].[file extension]`**
 - Test files should be inside **`backend`** folder and should be prefaced with **`test_[folder]_[filename].py`**
   - folder could be routers,utils,schema etc.
