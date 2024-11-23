@@ -15,6 +15,7 @@
 
 ## Commit Messages
 - Write **detailed messages** that concisely and accurately describe the changes made.
+- Must have frequent and incremental **commits** to ensure stability
 
 ## Trello Workflow
 1. When starting work on a task, move the ticket for the task into **"In Progress"** and attach the branch using the GitHub Power-Up.
