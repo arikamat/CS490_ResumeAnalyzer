@@ -19,8 +19,8 @@ React Components should follow
 - Use arrow functions to go over variables in loops or with mapping
 
 Testing Naming Convention
-- Use the same name as the component or module being tested, with a `.test.js` or `.test.tsx` suffix.
-  - Example: For `Button.js`, name the test file `Button.test.js`.
+- Use the same name as the component or module being tested, with a `.test.jsx` suffix.
+  - Example: For `Button.jsx`, name the test file `Button.test.jsx`.
 
 Test Description
 - Use clear and descriptive `it` or `test` statements to describe what the test does.
