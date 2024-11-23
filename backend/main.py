@@ -14,7 +14,7 @@ database = {}
 
 app = FastAPI()
 
-@app.post("/users",status_code=status.HTTP_201_CREATED)
+@app.post("/api/register",status_code=status.HTTP_201_CREATED)
 async def create_user_profile(user: User):
     #if duplicate email then throw error
     if user.email in email_set:

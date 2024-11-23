@@ -9,7 +9,7 @@ from backend.main import app
 client = TestClient(app)
 # Test for valid data
 def test_valid_user():
-    response = client.post("/users", json={
+    response = client.post("/api/register", json={
         "email": "user@example.com",
         "password": "securePassword",
         "username": "user123"
@@ -19,7 +19,7 @@ def test_valid_user():
 
 #test if the same email is used for 2 different users
 def test_duplicate_emails():
-    response = client.post("/users", json={
+    response = client.post("/api/register", json={
         "email": "user@example.com",
         "password": "securePassword",
         "username": "user123"
