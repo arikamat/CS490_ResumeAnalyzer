@@ -32,7 +32,12 @@ jobs:
         pip install -r backend/requirements.txt  
 
     
-    # Run tests with pytest
-    - name: Run tests
+    # Run tests with pytest and coverage
+    - name: Run tests with coverage
       run: |
-        pytest tests
+        pytest --cov=backend --cov-report=term-missing --cov-fail-under=80  # Fail if coverage is below 80%
+      continue-on-error: false
+    - name: Upload code coverage to GitHub
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage.xml
