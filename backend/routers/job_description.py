@@ -9,6 +9,7 @@ from backend.schemas import JobDescription
 
 router = APIRouter()
 
+
 @router.post("/api/job-description")
 async def job_description_upload(description: JobDescription, request: Request):
     """
@@ -20,7 +21,7 @@ async def job_description_upload(description: JobDescription, request: Request):
     """
     jwt = get_jwt_token(request)
     text = description.job_description.strip()
-    if len(text)>5000:
+    if len(text) > 5000:
         raise HTTPException(
             status_code=400,
             detail="Job description exceeds character limit.",

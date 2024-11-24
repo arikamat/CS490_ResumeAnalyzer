@@ -17,9 +17,7 @@ def test_job_description_upload_valid():
     """
     res = client.post(
         "/api/job-description",
-        json={
-            "job_description": VALID_DESCRIPTION
-        },
+        json={"job_description": VALID_DESCRIPTION},
         headers=JWT_HEADER,
     )
     assert res.status_code == 200
@@ -33,9 +31,7 @@ def test_job_description_upload_invalid():
     """
     res = client.post(
         "/api/job-description",
-        json={
-            "job_description": INVALID_DESCRIPTION
-        },
+        json={"job_description": INVALID_DESCRIPTION},
         headers=JWT_HEADER,
     )
     assert res.status_code == 400
