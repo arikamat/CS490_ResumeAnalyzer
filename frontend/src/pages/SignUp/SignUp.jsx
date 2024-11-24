@@ -25,9 +25,14 @@ const SignUp = () => {
         username,
         password,
       });
-      setNotification("Signup completed");
+    
+      if (response.status == 201) {
+        setNotification("Signup completed");
+      } else {
+        throw new Error('Signup failed email is not unique');
+      }
     } catch (error) {
-      setNotification("Signup failed", error);
+      setNotification(`Signup failed email is not unique`);
     }
   };
 
