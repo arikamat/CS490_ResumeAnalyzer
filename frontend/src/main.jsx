@@ -6,6 +6,6 @@ import Login  from './pages/Login/Login.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Login/>
+    <SignUp/>
   </StrictMode>
 );

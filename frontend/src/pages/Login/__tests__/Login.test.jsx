@@ -16,7 +16,7 @@ describe('Login Component', () => {
 
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
   });
 
 
@@ -33,7 +33,7 @@ describe('Login Component', () => {
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'correctpassword');
-    await user.click(screen.getByRole('button', { name: /log in/i }));
+    await user.click(screen.getByRole('button', { name: /sign in/i }));
   
     expect(await screen.findByText('Login successful')).toBeInTheDocument();  
     expect(setItemMock).toHaveBeenCalledWith('token', 'fakeToken'); //check local storage set func to have been called with token
@@ -56,7 +56,7 @@ describe('Login Component', () => {
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'wrongpassword');
-    await user.click(screen.getByRole('button', { name: /log in/i }));
+    await user.click(screen.getByRole('button', { name: /sign in/i }));
 
     expect(await screen.findByText('Login failed wrong credentials')).toBeInTheDocument();
     expect(axios.post).toHaveBeenCalledWith('/api/login', {
