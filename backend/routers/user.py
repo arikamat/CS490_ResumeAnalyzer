@@ -11,6 +11,16 @@ database = {}
 
 @router.post("/api/register", status_code=status.HTTP_201_CREATED)
 async def create_user_profile(user: User):
+    '''
+        Creates a user profile
+
+        Args: 
+            User object: Holds information inputted by the user
+
+        Returns: 
+            Dict: message detailing the status of the user creation
+
+    '''
     # if duplicate email then throw error
     if user.email in email_set:
         raise HTTPException(status_code=400, detail="Email is not unique")
