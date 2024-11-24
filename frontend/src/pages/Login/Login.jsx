@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../../assets/Global.css';
 
+// Handles functionality of login page with email and password
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [notification, setNotification] = useState('');
 
+  // Function that handles button click and sends the Login data to server
   const onButtonClick = async (e) => {
     e.preventDefault();
     try {
@@ -20,6 +23,7 @@ const Login = () => {
     }
   };
 
+  //Format of the page
   return (
     <div className={'mainContainer'}>
       <div className={'titleContainer'}>
@@ -53,7 +57,7 @@ const Login = () => {
           <input
             className={'inputButton'}
             type="submit"
-            value="Log in"
+            value="Sign in"
           />
         </div>
       </form>

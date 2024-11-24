@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../../assets/Global.css';
 
+// Handles functionality of login page with email, username, password, confirmpassword
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
@@ -8,6 +10,7 @@ const SignUp = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [notification, setNotification] = useState('');
 
+  // Function that handles button click and sends the SignUp data to server if valid
   const onButtonClick = async (e) => {
     e.preventDefault();
     
@@ -28,6 +31,7 @@ const SignUp = () => {
     }
   };
 
+  // Format of the page
   return (
     <div className={'mainContainer'}>
       <div className={'titleContainer'}>
