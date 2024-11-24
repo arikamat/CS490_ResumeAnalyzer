@@ -1,4 +1,13 @@
-from fastapi import APIRouter, status, HTTPException, File, UploadFile, Depends, Header,Request
+from fastapi import (
+    APIRouter,
+    status,
+    HTTPException,
+    File,
+    UploadFile,
+    Depends,
+    Header,
+    Request,
+)
 from backend.schemas import User
 from backend.utils import extract_text_from_pdf, extract_text_from_docx
 from backend.db import resume_database
@@ -16,7 +25,7 @@ def get_jwt_token(req: Request):
 
     Args:
         req (Request): Request Object
-    
+
     Returns:
         str: JWT token from Authorization header
     """
@@ -29,8 +38,7 @@ def get_jwt_token(req: Request):
 
 
 @router.post("/api/resume-upload")
-async def resume_upload(request: Request,
-    resume_file: UploadFile = File(...)):
+async def resume_upload(request: Request, resume_file: UploadFile = File(...)):
     """
     REST endpoint to upload resume file, extract its text, and store in in-memory db
 
@@ -38,7 +46,7 @@ async def resume_upload(request: Request,
         request (Request): Request object
         resume_file (UploadFile): Uploaded Resume file - must be pdf or docx
     """
-   
+
     jwt = get_jwt_token(request)
     if resume_file.content_type not in allowed_types:
         raise HTTPException(
