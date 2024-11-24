@@ -17,12 +17,11 @@ const SignUp = () => {
     }
 
     try {
-      const response = await axios.post('/api/signup', {
+      const response = await axios.post('/api/register', {
         email,
         username,
         password,
       });
-      localStorage.setItem('token', response.data.token); 
       setNotification("Signup completed");
     } catch (error) {
       setNotification("Signup failed", error);
