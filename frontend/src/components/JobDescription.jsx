@@ -45,8 +45,9 @@ const JobDescription = () => {
 
     // Attempt to upload the text using axios
     try {
+        const jwtToken="test"
         const url = 'http://127.0.0.1:8000/api/job-description';
-        const payload = { description: text };
+        const payload = { job_description: text };
         const config = {
           headers: {
             'Content-Type': 'application/json',
