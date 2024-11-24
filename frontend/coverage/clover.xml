@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1732416129876" clover="3.2.0">
+  <project timestamp="1732416129876" name="All files">
+    <metrics statements="22" coveredstatements="20" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6" elements="32" coveredelements="29" complexity="0" loc="22" ncloc="22" packages="1" files="1" classes="1"/>
+    <file name="SignUp.jsx" path="C:\dev\cs490\CS490_ResumeAnalyzer\frontend\src\pages\SignUp\SignUp.jsx">
+      <metrics statements="22" coveredstatements="20" conditionals="4" coveredconditionals="3" methods="6" coveredmethods="6"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="5" count="130" type="stmt"/>
+      <line num="6" count="130" type="stmt"/>
+      <line num="7" count="130" type="stmt"/>
+      <line num="8" count="130" type="stmt"/>
+      <line num="9" count="130" type="stmt"/>
+      <line num="11" count="130" type="stmt"/>
+      <line num="12" count="3" type="stmt"/>
+      <line num="14" count="3" type="cond" truecount="1" falsecount="1"/>
+      <line num="15" count="0" type="stmt"/>
+      <line num="16" count="0" type="stmt"/>
+      <line num="19" count="3" type="stmt"/>
+      <line num="20" count="3" type="stmt"/>
+      <line num="26" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="27" count="1" type="stmt"/>
+      <line num="29" count="1" type="stmt"/>
+      <line num="32" count="2" type="stmt"/>
+      <line num="36" count="130" type="stmt"/>
+      <line num="48" count="51" type="stmt"/>
+      <line num="59" count="18" type="stmt"/>
+      <line num="70" count="27" type="stmt"/>
+      <line num="81" count="27" type="stmt"/>
+    </file>
+  </project>
+</coverage>
