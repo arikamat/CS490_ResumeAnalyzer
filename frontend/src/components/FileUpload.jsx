@@ -2,11 +2,13 @@ import { useState } from 'react'
 import './FileUpload.css'
 import axios from 'axios';
 
+// Main component for handling file upload functionality
 const FileUpload = () => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  // Handles file selection and validation when the user chooses a file
   const handleChange = (e) => {
     const selectedFile = e.target.files[0];
 
@@ -18,7 +20,7 @@ const FileUpload = () => {
     if (selectedFile.type !== 'application/pdf') {
       setError('File must be a PDF');
       setFile(null);
-      return
+      return;
     }
 
     if (selectedFile.size > 2 * 1024 * 1024) {
@@ -31,6 +33,7 @@ const FileUpload = () => {
     setSuccess('File is ready to upload');
   }
 
+  // Handles form submission, sending the selected file to the server
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -39,9 +42,10 @@ const FileUpload = () => {
 
     if (!file) {
       setError('Please select a valid PDF before submitting');
-      return
+      return;
     }
     
+    // Prepare FormData object to send the file to the server
     const formData = new FormData();
     formData.append('file', file);
     formData.append('fileName', file.name);
@@ -51,6 +55,7 @@ const FileUpload = () => {
       },
     };
 
+    // Attempt to upload the file using axios
     try {
       const response = await axios.post('/api/resume-upload', formData, config);
 
@@ -68,7 +73,7 @@ const FileUpload = () => {
     }
   }
 
-
+  // Page layout and JSX structure for file upload form
   return (
     <div className="file-upload">
         <form onSubmit={handleSubmit}>

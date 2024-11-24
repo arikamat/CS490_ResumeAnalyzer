@@ -2,20 +2,24 @@ import { useState } from 'react';
 import './JobDescription.css';
 import axios from 'axios';
 
+// Component for handling job description text upload
 const JobDescription = () => {
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const charLimit = 5000;
 
+  // Update text state when input changes
   const handleChange = (e) => {
     setText(e.target.value)
   }
 
+  // Calculate remaining characters
   const getRemainingCharacters = () => {
     return charLimit - text.length;
   }
 
+  // Display warning based on remaining characters
   const getCharacterWarning = () => {
     const remaining = getRemainingCharacters();
     if (remaining < 0) {
@@ -27,6 +31,7 @@ const JobDescription = () => {
     return null
   }
 
+  // Handle form submission and upload the text
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -38,6 +43,7 @@ const JobDescription = () => {
         return;
     }
 
+    // Attempt to upload the text using axios
     try {
         const response = await axios.post('/api/job-description', { description: text });
 
@@ -56,6 +62,7 @@ const JobDescription = () => {
 
   }
 
+  // Page layout and JSX structure for text upload form
   return (
     <div className="job-description">
         <form onSubmit={handleSubmit}>
