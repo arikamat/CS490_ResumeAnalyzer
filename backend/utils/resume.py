@@ -3,6 +3,14 @@ import re
 from docx import Document
 
 def extract_text_from_pdf(file):
+    """
+    Extracts and cleans text from pdf file
+    Args:
+       file (stream or path): Path to pdf or file stream of pdf
+    
+    Returns:
+        str: Post processed text extracted from pdf 
+    """
     reader = PdfReader(file)
     text = ""
     for page in reader.pages:
@@ -14,6 +22,14 @@ def extract_text_from_pdf(file):
     return text.strip()
 
 def extract_text_from_docx(file):
+    """
+    Extracts and cleans text from docx file
+    Args:
+       file (stream or path): Path to docx or file stream of docx
+    
+    Returns:
+        str: Post processed text extracted from docx 
+    """
     doc = Document(file)
     text = []
     for i in doc.paragraphs:
