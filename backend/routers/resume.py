@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, HTTPException, File, UploadFile, Depends, Header
+from fastapi import APIRouter, status, HTTPException, File, UploadFile, Depends, Header,Request
 from backend.schemas import User
 from backend.utils import extract_text_from_pdf, extract_text_from_docx
 from backend.db import resume_database
@@ -10,7 +10,9 @@ allowed_types = [
 ]
 
 
-def get_jwt_token(auth: str = Header(None)):
+def get_jwt_token(req: Request):
+    auth = req.headers.get("Authorization")
+    print("ASDFASDFASDF", auth)
     if not auth or not auth.startswith("Bearer "):
         raise HTTPException(status_code=400, detail="Error with JWT")
     splits = auth.split()
@@ -19,9 +21,11 @@ def get_jwt_token(auth: str = Header(None)):
 
 
 @router.post("/api/resume-upload")
-async def resume_upload(
-    resume_file: UploadFile = File(...), jwt: str = Depends(get_jwt_token)
+async def resume_upload(request: Request,
+    resume_file: UploadFile = File(...), 
 ):
+   
+    jwt = get_jwt_token(request)
     if resume_file.content_type not in allowed_types:
         raise HTTPException(
             status_code=400,
@@ -33,7 +37,7 @@ async def resume_upload(
         raise HTTPException(status_code=400, detail="File size is over 2MB.")
 
     text = ""
-    await resume_file.file.seek(0)
+    resume_file.file.seek(0)
     if resume_file.content_type == allowed_types[0]:
         text = extract_text_from_pdf(resume_file.file)
     else:
