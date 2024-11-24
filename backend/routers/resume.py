@@ -11,8 +11,16 @@ allowed_types = [
 
 
 def get_jwt_token(req: Request):
+    """
+    Extracts JWT token from Authorization header of request
+
+    Args:
+        req (Request): Request Object
+    
+    Returns:
+        str: JWT token from Authorization header
+    """
     auth = req.headers.get("Authorization")
-    print("ASDFASDFASDF", auth)
     if not auth or not auth.startswith("Bearer "):
         raise HTTPException(status_code=400, detail="Error with JWT")
     splits = auth.split()
@@ -22,8 +30,14 @@ def get_jwt_token(req: Request):
 
 @router.post("/api/resume-upload")
 async def resume_upload(request: Request,
-    resume_file: UploadFile = File(...), 
-):
+    resume_file: UploadFile = File(...)):
+    """
+    REST endpoint to upload resume file, extract its text, and store in in-memory db
+
+    Args:
+        request (Request): Request object
+        resume_file (UploadFile): Uploaded Resume file - must be pdf or docx
+    """
    
     jwt = get_jwt_token(request)
     if resume_file.content_type not in allowed_types:
