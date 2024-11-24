@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../../assets/global.css';
+import '../../assets/Global.css';
 
 // Handles functionality of login page with email and password
 const Login = () => {
