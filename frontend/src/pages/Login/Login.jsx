@@ -13,10 +13,14 @@ const Login = () => {
         email, 
         password 
       });
-      localStorage.setItem('token', response.data.token); 
-      setNotification("Login successful");
+      if (response.status == 200) {
+        localStorage.setItem('token', response.data.token); 
+        setNotification("Login successful");
+      } else {
+        throw new Error('Login failed wrong credentials');
+      }
     } catch (error) {
-      setNotification("Login failed", error);
+      setNotification(`Login failed wrong credentials`);
     }
   };
 
