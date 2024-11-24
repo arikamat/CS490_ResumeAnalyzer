@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './FileUpload.css'
 import axios from 'axios';
+import React from 'react';
 
 // Main component for handling file upload functionality
-const FileUpload = () => {
+function FileUpload(){
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -84,7 +85,10 @@ const FileUpload = () => {
           <h1>Resume File Upload</h1>
 
           <div className='input-container'>
+            <label htmlFor="file-input">Upload File:</label>
             <input 
+              aria-label="Upload File"
+              id="file-input"
               type="file" 
               onChange={handleChange}
             />  
