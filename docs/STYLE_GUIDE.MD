@@ -50,8 +50,6 @@ Time permitted will make lint
 
 ## Back End
 
-More simple rules 
-
 **Basic rules**
 - Use snake case for functions **`login_var`**
 - Snake case for variables
