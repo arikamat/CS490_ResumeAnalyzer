@@ -55,9 +55,11 @@ Time permitted will make lint
 - Snake case for variables
 - Snake case for file names
 - File names should be short and relevant for example **`user.py`** for the router file that has user related api 
+- Before PR, run **`black backend`** and **`black tests`** within root folder for general formatting
 
 **Tests**
 - Any files used in tester files should be put in **`test_files`** folder and be prefaced with **`test_[filetype]_[num].[file extension]`**
 - Test files should be inside **`backend`** folder and should be prefaced with **`test_[folder]_[filename].py`**
   - folder could be routers,utils,schema etc.
   - Example testing routers/user.py should have following test file **`test_routers_user.py`**
+  
