@@ -30,7 +30,7 @@ describe('SignUp Component', () => {
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
     await user.type(screen.getByPlaceholderText('Password'), 'safwanbad');
-    await user.type(screen.getByPlaceholderText('Confirm Password'), 'safwanbad');
+    await user.type(screen.getByPlaceholderText('Confirm Password'), 'wrongpass');
     await user.click(screen.getByRole('button', { name: /sign up/i }));
     
     expect(await screen.findByText('Passwords do not match')).toBeInTheDocument();
