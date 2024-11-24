@@ -45,7 +45,8 @@ const JobDescription = () => {
 
     // Attempt to upload the text using axios
     try {
-        const response = await axios.post('/api/job-description', { description: text });
+        url = 'http://127.0.0.1:8000/api/job-description';
+        const response = await axios.post(url, { description: text });
 
         if (response.status === 200) {
             setSuccess('Job description uploaded successfully!');

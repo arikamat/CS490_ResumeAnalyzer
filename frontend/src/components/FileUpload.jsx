@@ -57,7 +57,8 @@ const FileUpload = () => {
 
     // Attempt to upload the file using axios
     try {
-      const response = await axios.post('/api/resume-upload', formData, config);
+      url = 'http://127.0.0.1:8000/api/resume-upload';
+      const response = await axios.post(url, formData, config);
 
       if (response.status === 200) {
         setSuccess('File uploaded successfully!');
