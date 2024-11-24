@@ -9,39 +9,63 @@ const FileUpload = () => {
 
   const handleChange = (e) => {
     const selectedFile = e.target.files[0];
+
+    setError('');
+    setSuccess('');
     
     if (!selectedFile) return;
 
     if (selectedFile.type !== 'application/pdf') {
       setError('File must be a PDF');
-      setSuccess('');
       setFile(null);
       return
     }
 
     if (selectedFile.size > 2 * 1024 * 1024) {
       setError('File size must be under 2 MB');
-      setSuccess('');
       setFile(null);
       return;
     }
 
-    setError('');
     setFile(selectedFile);
     setSuccess('File is ready to upload');
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setSuccess('');
+    setError('');
 
     if (!file) {
       setError('Please select a valid PDF before submitting');
-      setSuccess('');
       return
     }
     
-    setSuccess('File is ready to upload');
-    setError('');
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+
+    try {
+      const response = await axios.post('/api/resume-upload', formData, config);
+
+      if (response.status === 200) {
+        setSuccess('File uploaded successfully!');
+      }
+      else {
+        setError('Failed to upload the file.');
+      }
+
+    }
+    catch (err) {
+      setError('An error occurred during file upload.');
+      setSuccess('');
+    }
   }
 
 
@@ -55,7 +79,12 @@ const FileUpload = () => {
               type="file" 
               onChange={handleChange}
             />  
-            <button type="submit">Upload</button>
+        <button 
+          type="submit"
+          disabled={!file || error}
+          >Upload
+        </button>
+
           </div>
 
           <div className='message-container'>
