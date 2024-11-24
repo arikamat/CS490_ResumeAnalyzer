@@ -1,40 +1,19 @@
 from fastapi import (
     APIRouter,
-    status,
     HTTPException,
     File,
     UploadFile,
-    Depends,
-    Header,
     Request,
 )
-from backend.schemas import User
 from backend.utils import extract_text_from_pdf, extract_text_from_docx
-from backend.db import resume_database
+from backend.db import resume_jobdescrip_db
+from backend.utils import get_jwt_token
 
 router = APIRouter()
 allowed_types = [
     "application/pdf",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]
-
-
-def get_jwt_token(req: Request):
-    """
-    Extracts JWT token from Authorization header of request
-
-    Args:
-        req (Request): Request Object
-
-    Returns:
-        str: JWT token from Authorization header
-    """
-    auth = req.headers.get("Authorization")
-    if not auth or not auth.startswith("Bearer "):
-        raise HTTPException(status_code=400, detail="Error with JWT")
-    splits = auth.split()
-    token = splits[1]
-    return token
 
 
 @router.post("/api/resume-upload")
@@ -65,6 +44,8 @@ async def resume_upload(request: Request, resume_file: UploadFile = File(...)):
     else:
         text = extract_text_from_docx(resume_file.file)
 
-    resume_database[jwt] = text
+    if jwt not in resume_jobdescrip_db:
+        resume_jobdescrip_db[jwt] = {}
+    resume_jobdescrip_db[jwt]["resume_text"] = text
 
     return {"message": "Resume uploaded successfully."}

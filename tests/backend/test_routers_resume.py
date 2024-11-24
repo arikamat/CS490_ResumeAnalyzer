@@ -3,7 +3,7 @@ from fastapi import FastAPI
 import pytest
 from backend import app
 from pathlib import Path
-from backend.db import resume_database
+from backend.db import resume_jobdescrip_db
 
 client = TestClient(app)
 TESTDIR = Path(__file__).parent / "test_files"
@@ -25,7 +25,7 @@ def test_resume_upload_valid_pdf():
     f.close()
     assert res.status_code == 200
     assert res.json() == {"message": "Resume uploaded successfully."}
-    assert resume_database["valid_jwt"] == EXPECTED_TEXT
+    assert resume_jobdescrip_db["valid_jwt"]["resume_text"] == EXPECTED_TEXT
 
 
 def test_resume_upload_valid_docx():
@@ -47,7 +47,7 @@ def test_resume_upload_valid_docx():
     f.close()
     assert res.status_code == 200
     assert res.json() == {"message": "Resume uploaded successfully."}
-    assert resume_database["valid_jwt"] == EXPECTED_TEXT
+    assert resume_jobdescrip_db["valid_jwt"]["resume_text"] == EXPECTED_TEXT
 
 
 def test_resume_upload_invalid_file():

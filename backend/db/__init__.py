@@ -1,1 +1,1 @@
-from .resume_db import resume_database
+from .resume_job_db import resume_jobdescrip_db
