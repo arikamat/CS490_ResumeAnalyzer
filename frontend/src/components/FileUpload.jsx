@@ -46,7 +46,7 @@ const FileUpload = () => {
 
 
   return (
-    <div className="App">
+    <div className="file-upload">
         <form onSubmit={handleSubmit}>
           <h1>Resume File Upload</h1>
 
