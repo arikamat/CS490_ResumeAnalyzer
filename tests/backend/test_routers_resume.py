@@ -27,6 +27,20 @@ def test_resume_upload_valid_pdf():
     assert res.json() == {"message": "Resume uploaded successfully."}
     assert resume_jobdescrip_db["valid_jwt"]["resume_text"] == EXPECTED_TEXT
 
+def test_resume_upload_valid_pdf_jwt_doesnt_exist():
+    """
+    Tests resume-upload endpoint by uploading a valid pdf file when database doesn't have jwt in it
+    """
+    f = open(TESTDIR / "test_resume_pdf1.pdf", "rb")
+    res = client.post(
+        "/api/resume-upload",
+        files={"resume_file": ("test_resume_pdf1.pdf", f, "application/pdf")},
+        headers={"Authorization":"Bearer new_jwt"},
+    )
+    f.close()
+    assert res.status_code == 200
+    assert res.json() == {"message": "Resume uploaded successfully."}
+    assert resume_jobdescrip_db["new_jwt"]["resume_text"] == EXPECTED_TEXT
 
 def test_resume_upload_valid_docx():
     """
