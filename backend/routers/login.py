@@ -5,8 +5,12 @@ from .user import database
 from .user import router
 from datetime import datetime, timedelta
 import jwt
+from dotenv import load_dotenv
+import os
 
 router = APIRouter()
+
+load_dotenv()
 
 
 @router.post("/api/login")
@@ -35,7 +39,8 @@ async def check_login(login: Login):
         "exp": datetime.utcnow() + timedelta(hours=.25)
     }
 
+    secret = os.getenv("squidward")
     #generate the token with the payload and secret key "spongebob"
-    token = jwt.encode(payload, "spongebob", algorithm="HS256")
+    token = jwt.encode(payload, "secret", algorithm="HS256")
       
     return { "token": token }
