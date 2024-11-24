@@ -47,18 +47,20 @@ const FileUpload = () => {
     
     // Prepare FormData object to send the file to the server
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
+    formData.append('resume_file', file);
 
     // Attempt to upload the file using axios
     try {
-      url = 'http://127.0.0.1:8000/api/resume-upload';
-      const response = await axios.post(url, formData, config);
+      const url = 'http://127.0.0.1:8000/api/resume-upload';
+      const payload = formData;
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${jwtToken}`,
+        },
+      };
+  
+      const response = await axios.post(url, payload, config);
 
       if (response.status === 200) {
         setSuccess('File uploaded successfully!');

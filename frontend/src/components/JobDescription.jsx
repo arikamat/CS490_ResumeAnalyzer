@@ -45,8 +45,17 @@ const JobDescription = () => {
 
     // Attempt to upload the text using axios
     try {
-        url = 'http://127.0.0.1:8000/api/job-description';
-        const response = await axios.post(url, { description: text });
+        const url = 'http://127.0.0.1:8000/api/job-description';
+        const payload = { description: text };
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`,
+          },
+        };
+    
+
+        const response = await axios.post(url, payload, config);
 
         if (response.status === 200) {
             setSuccess('Job description uploaded successfully!');
