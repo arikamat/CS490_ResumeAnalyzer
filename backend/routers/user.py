@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, HTTPException
+from backend.schemas import User
 import bcrypt
 
 router = APIRouter()
@@ -7,7 +8,7 @@ router = APIRouter()
 email_set = set()
 database = {}
 
-@router.post("/api/register")
+@router.post("/api/register", status_code=status.HTTP_201_CREATED)
 async def create_user_profile(user: User):
     #if duplicate email then throw error
     if user.email in email_set:
