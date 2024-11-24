@@ -5,4 +5,3 @@ app = FastAPI()
 
 # Include the router with a prefix (optional)
 app.include_router(UserRouter)
-
