@@ -37,7 +37,7 @@ describe('Login Component', () => {
   
     expect(await screen.findByText('Login successful')).toBeInTheDocument();  
     expect(setItemMock).toHaveBeenCalledWith('token', 'fakeToken'); //check local storage set func to have been called with token
-    expect(axios.post).toHaveBeenCalledWith('/api/login', {
+    expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/api/login', {
       email: 'jck44@example.com',
       password: 'correctpassword',
     });
@@ -59,7 +59,7 @@ describe('Login Component', () => {
     await user.click(screen.getByRole('button', { name: /sign in/i }));
 
     expect(await screen.findByText('Login failed wrong credentials')).toBeInTheDocument();
-    expect(axios.post).toHaveBeenCalledWith('/api/login', {
+    expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/api/login', {
       email: 'jck44@example.com',
       password: 'wrongpassword',
     });

@@ -56,7 +56,7 @@ describe('SignUp Component', () => {
     expect(await screen.findByText('Signup completed')).toBeInTheDocument();
 
     //check it calls correct location, with correct data, and that it calls it only once
-    expect(axios.post).toHaveBeenCalledWith('/api/register', {
+    expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/api/register', {
       email: 'jck44@example.com',
       username: 'jeremy',
       password: 'safwanbad',
@@ -81,7 +81,7 @@ describe('SignUp Component', () => {
     expect(await screen.findByText('Signup failed email is not unique')).toBeInTheDocument();
   
     // Check that axios.post was called with the correct parameters
-    expect(axios.post).toHaveBeenCalledWith('/api/register', {
+    expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/api/register', {
       email: 'jck44@example.com',
       username: 'jeremy',
       password: 'safwanbad',
