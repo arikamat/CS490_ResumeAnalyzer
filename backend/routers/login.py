@@ -39,8 +39,8 @@ async def check_login(login: Login):
         "exp": datetime.utcnow() + timedelta(hours=.25)
     }
 
-    secret = os.getenv("squidward")
+    
     #generate the token with the payload and secret key "spongebob"
-    token = jwt.encode(payload, "secret", algorithm="HS256")
+    token = jwt.encode(payload, os.getenv("PRIVATE_PASSWORD"), algorithm="HS256")
       
     return { "token": token }
