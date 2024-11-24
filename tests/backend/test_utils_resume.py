@@ -13,7 +13,7 @@ def test_extract_text_from_pdf():
 
     Reads a sample PDF file and extracts the text from it. Ensures that extraction output matches the actual text in the file
     """
-    pdf_file = TESTDIR / "test_pdf_1.pdf"
+    pdf_file = TESTDIR / "test_resume_pdf1.pdf"
     expect_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat arcu tempus, interdum tellus non, aliquam nulla. Morbi tristique augue nec vulputate dictum. Etiam posuere lorem at lectus scelerisque feugiat. Suspendisse porta ante a elit malesuada, et viverra turpis suscipit. Maecenas fringilla nec arcu et sagittis. Vivamus dignissim ligula ac diam cursus faucibus. Suspendisse felis odio, tristique quis ultricies eget, dictum sit amet lectus. Fusce diam nisi, vulputate id laoreet ut, vehicula at lorem. Fusce malesuada turpis velit, et pulvinar neque bibendum eget. Curabitur rutrum leo ac accumsan congue. Sed porta, justo ac venenatis auctor, velit est fringilla leo, luctus fermentum ex risus a nulla. Aliquam volutpat nunc vel auctor vehicula. Nullam tempor eleifend purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut finibus scelerisque varius."
     f = open(pdf_file, "rb")
     data = f.read()
@@ -30,7 +30,7 @@ def test_extract_text_from_docx():
 
     Reads a sample docx file and extracts the text from it. Ensures that extraction output matches the actual text in the file
     """
-    docx_file = TESTDIR / "test_docx_1.docx"
+    docx_file = TESTDIR / "test_resume_docx1.docx"
     expect_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed feugiat arcu tempus, interdum tellus non, aliquam nulla. Morbi tristique augue nec vulputate dictum. Etiam posuere lorem at lectus scelerisque feugiat. Suspendisse porta ante a elit malesuada, et viverra turpis suscipit. Maecenas fringilla nec arcu et sagittis. Vivamus dignissim ligula ac diam cursus faucibus. Suspendisse felis odio, tristique quis ultricies eget, dictum sit amet lectus. Fusce diam nisi, vulputate id laoreet ut, vehicula at lorem. Fusce malesuada turpis velit, et pulvinar neque bibendum eget. Curabitur rutrum leo ac accumsan congue. Sed porta, justo ac venenatis auctor, velit est fringilla leo, luctus fermentum ex risus a nulla. Aliquam volutpat nunc vel auctor vehicula. Nullam tempor eleifend purus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut finibus scelerisque varius."
     f = open(docx_file, "rb")
     data = f.read()
