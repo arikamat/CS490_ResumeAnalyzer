@@ -10,7 +10,7 @@ from backend.schemas import JobDescription
 router = APIRouter()
 
 @router.post("/api/job-description")
-async def resume_upload(description: JobDescription, request: Request):
+async def job_description_upload(description: JobDescription, request: Request):
     """
     REST endpoint to upload job description, ensure it is less than 5000 characters, and store in in-memory db
 
