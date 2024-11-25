@@ -4,7 +4,7 @@ import './JobDescription.css';
 import axios from 'axios';
 import Loading from '../../components/Loading';
 // Component for handling job description text upload
-const JobDescription = () => {
+function JobDescription() {
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');

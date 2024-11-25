@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import Dashboard from '../Dashboard';
 import React from 'react'; 
-
+import { AuthProvider } from '../../../context/AuthContext';
 describe('Dashboard Component', () => {
   it('states resume fit score, skills, improvement', () => {
-    render(<Dashboard />);
+    render(<AuthProvider><Dashboard /></AuthProvider>);
 
     // resume fit score sec
     expect(screen.getByText(/Resume Fit Score/i)).toBeInTheDocument();

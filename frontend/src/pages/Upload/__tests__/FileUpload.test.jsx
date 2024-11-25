@@ -3,7 +3,7 @@ import { render, screen,fireEvent, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import FileUpload from '../FileUpload'; 
-
+import { AuthProvider } from '../../../context/AuthContext';
 //tests created for task 9/10
 
 jest.mock('axios');
@@ -13,7 +13,7 @@ describe('FileUpload Component', () => {
   });
 
   it('display an error for not pdf file upload', async () => {
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
     const fileInput = screen.getByLabelText('Upload File');
     const invalidFile = new File(['content'], 'safnoor.txt', { type: 'text/plain' });
     await userEvent.upload(fileInput, invalidFile);
@@ -21,7 +21,7 @@ describe('FileUpload Component', () => {
   });
 
   it('display error for file over 2MB', async () => {
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
     const fileInput = screen.getByLabelText('Upload File');
 
     //using blob and specfic arry to create over limit
@@ -36,7 +36,7 @@ describe('FileUpload Component', () => {
   });
 
   it('enable upload button for valid PDF file', async () => {
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
     const fileInput = screen.getByLabelText('Upload File');
     const validFile = new File(['content'], 'safnoor.pdf', { type: 'application/pdf' });
 
@@ -47,7 +47,7 @@ describe('FileUpload Component', () => {
 
   it('display a success message on successful file upload', async () => {
     axios.post.mockResolvedValueOnce({ status: 200 });
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
 
     const fileInput = screen.getByLabelText('Upload File');
     const validFile = new File(['content'], 'safnoor.pdf', { type: 'application/pdf' });
@@ -62,7 +62,7 @@ describe('FileUpload Component', () => {
 
   it('display an error message on API fail', async () => {
     axios.post.mockRejectedValueOnce(new Error('API fail'));
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
 
     const fileInput = screen.getByLabelText('Upload File');
     const validFile = new File(['content'], 'safnoor.pdf', { type: 'application/pdf' });
@@ -75,7 +75,7 @@ describe('FileUpload Component', () => {
 
   it('handle non 200 status code', async () => {
     axios.post.mockResolvedValueOnce({ status: 400 });
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
 
     const fileInput = screen.getByLabelText('Upload File');
     const validFile = new File(['content'], 'valid.pdf', { type: 'application/pdf' });
@@ -102,7 +102,7 @@ describe('FileUpload Component', () => {
       })
     );
 
-    render(<FileUpload />);
+    render(<AuthProvider><FileUpload /></AuthProvider>);
     const user = userEvent.setup();
 
     const fileInput = screen.getByLabelText('Upload File');

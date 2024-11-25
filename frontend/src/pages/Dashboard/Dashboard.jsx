@@ -2,8 +2,10 @@ import React from 'react';
 import '../../assets/global.css'; 
 import './Dashboard.css';
 
+
 //Generates dashboard based on fitscore, keywords, and suggestions
 function Dashboard () {
+
   const fitScore = 50;
   const matchedKeywords = ["Strafing", "Aim", "Game sense"];
 
