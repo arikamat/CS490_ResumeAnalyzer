@@ -138,7 +138,16 @@ describe('Login Component', () => {
       },
     });
 
-    render(<Login />);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/upload" element={<div>Upload</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'wrongpassword');

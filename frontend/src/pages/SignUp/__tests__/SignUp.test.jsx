@@ -177,7 +177,16 @@ describe('SignUp Component', () => {
     });
 
 
-    render(<SignUp />);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/register"]}>
+          <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
