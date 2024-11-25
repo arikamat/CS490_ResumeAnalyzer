@@ -26,9 +26,8 @@ const Login = () => {
       }
     } catch (error) {
       setNotification(`Login failed wrong credentials`);
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   //Format of the page

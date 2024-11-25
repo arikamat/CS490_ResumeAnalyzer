@@ -15,13 +15,13 @@ const SignUp = () => {
   // Function that handles button click and sends the SignUp data to server if valid
   const onButtonClick = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    
 
     if (password !== confirmPassword) {
       setNotification("Passwords do not match");
       return;
     }
-
+    setLoading(true);
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/register', {
         email,
@@ -36,15 +36,15 @@ const SignUp = () => {
       }
     } catch (error) {
       setNotification(`Signup failed email is not unique`);
-    } finally{
-      setLoading(false);
     }
+    setLoading(false);
+
   };
 
   // Format of the page
   return (
     <>
-      {loading ? (<Loading/>) : (<div className={'mainContainer'}>
+      {loading ? (<Loading />) : (<div className={'mainContainer'}>
         <div className={'titleContainer'}>
           <div>Sign Up</div>
         </div>
