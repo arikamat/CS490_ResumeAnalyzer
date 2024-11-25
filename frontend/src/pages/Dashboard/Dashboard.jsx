@@ -4,7 +4,7 @@ import './Dashboard.css';
 import useAuth from "../../hooks/useAuth";
 //Generates dashboard based on fitscore, keywords, and suggestions
 function Dashboard () {
-  const valid = False;
+  // const valid = False;
   useAuth(); // protect route
 
   const fitScore = 50;
@@ -19,6 +19,7 @@ function Dashboard () {
 
   //Format of the page
   return (
+    localStorage.getItem('token') &&
     <div className="dashboardContainer">
       <div className="dashboardTitle">Resume Analysis Dashboard</div>
 

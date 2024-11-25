@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../../assets/global.css';
 import Loading from '../../components/Loading'
 // Handles functionality of login page with email and password
-const Login = () => {
+function Login(){
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [notification, setNotification] = useState('');

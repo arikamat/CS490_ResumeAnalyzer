@@ -4,7 +4,7 @@ import '../../assets/global.css';
 import Loading from '../../components/Loading'
 
 // Handles functionality of login page with email, username, password, confirmpassword
-const SignUp = () => {
+function SignUp (){
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

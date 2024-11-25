@@ -6,7 +6,7 @@ import Home from './pages/Home/Home.jsx';
 import Navbar from './components/Navbar.jsx';
 import Upload from './pages/Upload/Upload.jsx';
 import Dashboard from './pages/Dashboard/Dashboard.jsx'
-const App = () => {
+function App(){
   return (
     <Router> 
         <Navbar/>
