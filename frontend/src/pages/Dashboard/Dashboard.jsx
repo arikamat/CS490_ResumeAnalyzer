@@ -1,9 +1,12 @@
 import React from 'react';
 import '../../assets/global.css'; 
 import './Dashboard.css';
-
+import useAuth from "../../hooks/useAuth";
 //Generates dashboard based on fitscore, keywords, and suggestions
 function Dashboard () {
+  const valid = False;
+  useAuth(); // protect route
+
   const fitScore = 50;
   const matchedKeywords = ["Strafing", "Aim", "Game sense"];
 
