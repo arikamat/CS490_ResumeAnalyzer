@@ -35,7 +35,7 @@ const SignUp = () => {
         throw new Error('Signup failed email is not unique');
       }
     } catch (error) {
-      setNotification(error.response.data.detail ? error.response.data.detail : "Signup failed" );
+      setNotification(error.response && error.response.data && error.response.data.detail ? error.response.data.detail : "Signup failed email is not unique" );
     }
     setLoading(false);
 
