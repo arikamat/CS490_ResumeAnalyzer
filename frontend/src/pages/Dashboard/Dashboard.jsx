@@ -3,7 +3,7 @@ import '../../assets/global.css';
 import './Dashboard.css';
 
 //Generates dashboard based on fitscore, keywords, and suggestions
-const Dashboard = () => {
+function Dashboard () {
   const fitScore = 50;
   const matchedKeywords = ["Strafing", "Aim", "Game sense"];
 
