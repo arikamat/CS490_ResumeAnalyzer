@@ -3,7 +3,7 @@ import { render, screen, waitFor,fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import SignUp from '../SignUp';
-
+import { AuthProvider } from '../../../context/AuthContext';
 jest.mock('axios');
 describe('SignUp Component', () => {
 
@@ -14,7 +14,7 @@ describe('SignUp Component', () => {
 
   //inside it is what I expect to happen and what will be verified 
   it('should render form w/ all input fields and submit button', () => {
-    render(<SignUp />);
+    render(<AuthProvider><SignUp /></AuthProvider>);
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
@@ -24,7 +24,7 @@ describe('SignUp Component', () => {
 
   //needs to be reviewed 
   it('show text if passwords do not match', async () => {
-    render(<SignUp />);
+    render(<AuthProvider><SignUp /></AuthProvider>);
     const user = userEvent.setup();
     //use awaits to make sure jest does not proceed due to promise 
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
@@ -44,7 +44,7 @@ describe('SignUp Component', () => {
       data: { message: 'User registered' },
     });
 
-    render(<SignUp />);
+    render(<AuthProvider><SignUp /></AuthProvider>);
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
@@ -70,7 +70,7 @@ describe('SignUp Component', () => {
       data: { message: 'Email is not unique' },
     });
 
-    render(<SignUp />);
+    render(<AuthProvider><SignUp /></AuthProvider>);
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
@@ -106,7 +106,7 @@ describe('SignUp Component', () => {
       })
     );
 
-    render(<SignUp />);
+    render(<AuthProvider><SignUp /></AuthProvider>);
     const user = userEvent.setup();
 
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');

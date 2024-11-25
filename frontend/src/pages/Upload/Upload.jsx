@@ -2,11 +2,10 @@ import FileUpload from "./FileUpload";
 import JobDescription from "./JobDescription";
 
 import '../../assets/global.css';
-import useAuth from "../../hooks/useAuth";
+// import useAuth from "../../hooks/useAuth";
 function Upload() {
-    useAuth();
+    // useAuth();
     return (
-        localStorage.getItem('token') &&
         <div className={'mainContainer'}>
             <FileUpload />
             <JobDescription />

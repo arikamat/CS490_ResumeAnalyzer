@@ -3,6 +3,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import JobDescription from '../JobDescription';
+import { AuthProvider } from '../../../context/AuthContext';
 
 //had to use fireEvent instead of the typical standard userEvent due to the fact that userEvent does a complete process and is extremely slow in completely 5000 character typing
 //fireEvent directly does the chang, may look in the future for better solution or using userEvent in different way
@@ -18,13 +19,13 @@ describe('JobDescription Component', () => {
   });
 
   it('renders existence check', () => {
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
     expect(screen.getByPlaceholderText(/Enter job description here/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /upload/i })).toBeInTheDocument();
   });
 
   it('display character count and warn when approaching or exceeding the limit', () => {
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
 
     // testing far away 
@@ -43,7 +44,7 @@ describe('JobDescription Component', () => {
   });
 
   it('disable submit button and show error when character limit is exceeded', () => {
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
     const submitButton = screen.getByRole('button', { name: /upload/i });
 
@@ -60,7 +61,7 @@ describe('JobDescription Component', () => {
       return null;
     });
     axios.post.mockResolvedValueOnce({ status: 200 });
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
 
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
     const submitButton = screen.getByRole('button', { name: /upload/i });
@@ -85,7 +86,7 @@ describe('JobDescription Component', () => {
 
   it('display an error message on API fail', async () => {
     axios.post.mockRejectedValueOnce(new Error('API fail'));
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
 
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
     const submitButton = screen.getByRole('button', { name: /upload/i });
@@ -98,7 +99,7 @@ describe('JobDescription Component', () => {
 
   it('display an error message on not 200 API res', async () => {
     axios.post.mockResolvedValueOnce({ status: 400 });
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
 
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
     const submitButton = screen.getByRole('button', { name: /upload/i });
@@ -110,7 +111,7 @@ describe('JobDescription Component', () => {
 
 
   it('disable submit button when text is empty', () => {
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
     const submitButton = screen.getByRole('button', { name: /upload/i });
     expect(submitButton).toBeDisabled();
   });
@@ -132,7 +133,7 @@ describe('JobDescription Component', () => {
     );
     // const user = userEvent.setup();
 
-    render(<JobDescription />);
+    render(<AuthProvider><JobDescription /></AuthProvider>);
 
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
     const submitButton = screen.getByRole('button', { name: /upload/i });

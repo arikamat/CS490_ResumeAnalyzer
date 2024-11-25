@@ -3,7 +3,7 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import Login from '../Login';
-
+import { AuthProvider } from '../../../context/AuthContext';
 jest.mock('axios');
 describe('Login Component', () => {
 
@@ -12,7 +12,7 @@ describe('Login Component', () => {
   });
 
   it('should render form with email, password input fields and submit button', () => {
-    render(<Login />);
+    render(<AuthProvider><Login /></AuthProvider>);
 
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
@@ -29,7 +29,7 @@ describe('Login Component', () => {
     //mocking local storage https://stackoverflow.com/questions/32911630/how-do-i-deal-with-localstorage-in-jest-tests
     const setItemMock = jest.spyOn(Storage.prototype, 'setItem');
 
-    render(<Login />);
+    render(<AuthProvider><Login /></AuthProvider>);
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'correctpassword');
@@ -52,7 +52,7 @@ describe('Login Component', () => {
       data: { message: 'Invalid credentials' },
     });
 
-    render(<Login />);
+    render(<AuthProvider><Login /></AuthProvider>);
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'wrongpassword');
@@ -79,7 +79,7 @@ describe('Login Component', () => {
       })
     );
   
-    render(<Login />);
+    render(<AuthProvider><Login /></AuthProvider>);
     const user = userEvent.setup();
   
 
