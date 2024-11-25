@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactLoading from 'react-loading'
+import './Loading.css'; 
+
 const Loading = () => {
     return (
         <div>
-            <ReactLoading type="spin" color="#32a0a8" height={50} width={50}/>
+            <span className='loading-text'>Loading...</span>
+            <ReactLoading type="spin" color="white" height={50} width={50}/>
         </div>
     )
 }
