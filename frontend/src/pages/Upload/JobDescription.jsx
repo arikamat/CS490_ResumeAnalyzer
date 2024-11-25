@@ -2,11 +2,13 @@ import { useState } from 'react';
 import React from 'react';
 import './JobDescription.css';
 import axios from 'axios';
+import Loading from '../../components/Loading';
 // Component for handling job description text upload
 const JobDescription = () => {
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   const charLimit = 5000;
 
   // Update text state when input changes
@@ -43,7 +45,7 @@ const JobDescription = () => {
       return;
     }
 
-    // Attempt to upload the text using axios
+    setLoading(true);
     try {
       const jwtToken = localStorage.getItem('token');
       const url = 'http://127.0.0.1:8000/api/job-description';
@@ -70,39 +72,47 @@ const JobDescription = () => {
     catch (err) {
       setError('An error occurred during submission.');
     }
-
+    setLoading(false);
   }
 
   // Page layout and JSX structure for text upload form
   return (
-    <div className="job-description">
-      <form onSubmit={handleSubmit}>
-        <h1>Job Description</h1>
-        <div className='input-container'>
-          <textarea
-            value={text}
-            onChange={handleChange}
-            placeholder="Enter job description here..."
-          />
-          <button
-            type="submit"
-            disabled={!text || text.length > charLimit}
-          >Upload
-          </button>
-        </div>
-        <div className='char-info'>
-          <p>{text.length} / {charLimit} characters</p>
-          {getCharacterWarning()}
-          {getRemainingCharacters() >= 0 && (
-            <p>{getRemainingCharacters()} characters remaining</p>
-          )}
-        </div>
-        <div className='message-container'>
-          {error && <p className="error">{error}</p>}
-          {success && <p className="success">{success}</p>}
-        </div>
-      </form>
-    </div>
+    <>
+      <h1>Job Description</h1>
+      {loading ?
+        (<Loading />)
+        :
+        (
+          <div className="job-description">
+            <form onSubmit={handleSubmit}>
+
+              <div className='input-container'>
+                <textarea
+                  value={text}
+                  onChange={handleChange}
+                  placeholder="Enter job description here..."
+                />
+                <button
+                  type="submit"
+                  disabled={!text || text.length > charLimit}
+                >Upload
+                </button>
+              </div>
+              <div className='char-info'>
+                <p>{text.length} / {charLimit} characters</p>
+                {getCharacterWarning()}
+                {getRemainingCharacters() >= 0 && (
+                  <p>{getRemainingCharacters()} characters remaining</p>
+                )}
+              </div>
+              <div className='message-container'>
+                {error && <p className="error">{error}</p>}
+                {success && <p className="success">{success}</p>}
+              </div>
+            </form>
+          </div>
+        )}
+    </>
   );
 }
 

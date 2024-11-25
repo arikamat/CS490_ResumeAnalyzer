@@ -2,20 +2,20 @@ import { useState } from 'react'
 import './FileUpload.css'
 import axios from 'axios';
 import React from 'react';
-
+import Loading from '../../components/Loading';
 // Main component for handling file upload functionality
-function FileUpload(){
+function FileUpload() {
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-
+  const [loading, setLoading] = useState(false);
   // Handles file selection and validation when the user chooses a file
   const handleChange = (e) => {
     const selectedFile = e.target.files[0];
 
     setError('');
     setSuccess('');
-    
+
     if (!selectedFile) return;
 
     if (selectedFile.type !== 'application/pdf') {
@@ -45,12 +45,11 @@ function FileUpload(){
       setError('Please select a valid PDF before submitting');
       return;
     }
-    
-    // Prepare FormData object to send the file to the server
+
     const formData = new FormData();
     formData.append('resume_file', file);
 
-    // Attempt to upload the file using axios
+    setLoading(true);
     try {
       const jwtToken = localStorage.getItem('token');
       const url = 'http://127.0.0.1:8000/api/resume-upload';
@@ -61,7 +60,7 @@ function FileUpload(){
           'Authorization': `Bearer ${jwtToken}`,
         },
       };
-  
+
       const response = await axios.post(url, payload, config);
 
       if (response.status === 200) {
@@ -76,27 +75,30 @@ function FileUpload(){
       setError('An error occurred during file upload.');
       setSuccess('');
     }
+    setLoading(false);
   }
 
   // Page layout and JSX structure for file upload form
   return (
-    <div className="file-upload">
+    <>
+      <h1>Resume File Upload</h1>
+      {loading ? (<Loading />) : (<div className="file-upload">
         <form onSubmit={handleSubmit}>
-          <h1>Resume File Upload</h1>
+
 
           <div className='input-container'>
             <label htmlFor="file-input">Upload File:</label>
-            <input 
+            <input
               aria-label="Upload File"
               id="file-input"
-              type="file" 
+              type="file"
               onChange={handleChange}
-            />  
-        <button 
-          type="submit"
-          disabled={!file || error}
-          >Upload
-        </button>
+            />
+            <button
+              type="submit"
+              disabled={!file || error}
+            >Upload
+            </button>
 
           </div>
 
@@ -106,7 +108,8 @@ function FileUpload(){
           </div>
 
         </form>
-    </div>
+      </div>)}
+    </>
   );
 }
 

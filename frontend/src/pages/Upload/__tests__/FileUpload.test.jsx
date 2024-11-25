@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen,fireEvent, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import FileUpload from '../FileUpload'; 
@@ -84,5 +84,38 @@ describe('FileUpload Component', () => {
     await userEvent.click(uploadButton);
 
     expect(await screen.findByText(/Failed to upload the file./)).toBeInTheDocument();
+  });
+
+  it('displays loading component while the file upload is in progress', async () => {
+    //set timeout for entire test 
+    jest.setTimeout(10000);
+
+    // const mockResponse = {  status: 200 }; // give fake token to pass
+
+    axios.post.mockImplementation(() =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            status: 200
+          }); //make it sucess
+        }, 1000); // give one second delay
+      })
+    );
+
+    render(<FileUpload />);
+    const user = userEvent.setup();
+
+    const fileInput = screen.getByLabelText('Upload File');
+    const validFile = new File(['content'], 'safnoor.pdf', { type: 'application/pdf' });
+    await userEvent.upload(fileInput, validFile);
+    const uploadButton = screen.getByRole('button', { name: /upload/i });
+    // await userEvent.click(uploadButton);
+    fireEvent.click(uploadButton); //trigger with fireEvent so no delay i dont want full process
+
+    expect(screen.getByText('Loading...')).toBeInTheDocument(); // find loading to appear immedietely 
+
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), { timeout: 1500 }); //WAIT for loading to stop after succeess
+    expect(await screen.findByText(/File uploaded successfully!/)).toBeInTheDocument();
+
   });
 });
