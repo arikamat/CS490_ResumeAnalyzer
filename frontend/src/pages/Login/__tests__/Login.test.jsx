@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import Login from '../Login';
@@ -67,29 +67,30 @@ describe('Login Component', () => {
   });
 
   it('displays loading component while the login request is in progress', async () => {
-    jest.useFakeTimers(); 
+    //set timeout for entire test 
+    jest.setTimeout(10000); 
   
-    axios.post.mockImplementation(
-      () =>
-        new Promise((resolve) => {
-          setTimeout(() => resolve({ status: 200, data: { token: 'fakeToken' } }), 500);
-        })
+    const mockResponse = { data: { token: 'fakeToken' } }; // give fake token to pass
+    axios.post.mockImplementation(() =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ status: 200, data: mockResponse }); //make it sucess
+        }, 1000); // give one second delay
+      })
     );
   
     render(<Login />);
     const user = userEvent.setup();
   
+
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'correctpassword');
-    await user.click(screen.getByRole('button', { name: /sign in/i }));
+    fireEvent.click(screen.getByRole('button', { name: /sign in/i })); //trigger with fireEvent so no delay i dont want full process
   
-    expect(await screen.findByText('Loading...')).toBeInTheDocument();
-    jest.advanceTimersByTime(500);
-
-    expect(await screen.findByText('Loading')).not.toBeInTheDocument();
-    expect(await screen.findByText('Login successful')).not.toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument(); // find loading to appear immedietely 
   
-    jest.useRealTimers();
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), { timeout: 1500 }); //WAIT for loading to stop after succeess
+    expect(screen.getByText('Login successful')).toBeInTheDocument(); //find end message
   });
   
 
