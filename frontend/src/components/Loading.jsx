@@ -4,7 +4,7 @@ import './Loading.css';
 
 const Loading = () => {
     return (
-        <div>
+        <div className='loading-parent'>
             <span className='loading-text'>Loading...</span>
             <ReactLoading type="spin" color="white" height={50} width={50}/>
         </div>
