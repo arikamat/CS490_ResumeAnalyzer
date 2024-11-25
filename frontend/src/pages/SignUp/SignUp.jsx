@@ -51,7 +51,7 @@ function SignUp() {
     <>
       {loading ? (<Loading />) : (<div className={'mainContainer'}>
         <div className={'titleContainer'}>
-          <div>Sign Up</div>
+          <div>Create an Account</div>
         </div>
         <br />
         <form onSubmit={onButtonClick}>
