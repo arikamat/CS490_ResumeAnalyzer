@@ -13,6 +13,8 @@ jest.mock('axios');
 describe('JobDescription Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    //make sure the getItem doesnt overflow
+    jest.spyOn(Storage.prototype, 'getItem').mockClear();
   });
 
   it('renders existence check', () => {
@@ -52,6 +54,11 @@ describe('JobDescription Component', () => {
   });
 
   it('display success text on successful call', async () => {
+    //have to use Storage prototype and have it spy with to returning our fake token
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
+        if (key === 'token') return 'idontlikethis';
+        return null;
+      });
     axios.post.mockResolvedValueOnce({ status: 200 });
     render(<JobDescription />);
 
@@ -70,7 +77,7 @@ describe('JobDescription Component', () => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer test',
+          'Authorization': 'Bearer idontlikethis',
         },
       }
     );
