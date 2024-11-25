@@ -2,7 +2,6 @@ import { useState } from 'react';
 import React from 'react';
 import './JobDescription.css';
 import axios from 'axios';
-
 // Component for handling job description text upload
 const JobDescription = () => {
   const [text, setText] = useState('');
