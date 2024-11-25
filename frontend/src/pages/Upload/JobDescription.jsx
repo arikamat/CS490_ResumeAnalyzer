@@ -56,7 +56,7 @@ const JobDescription = () => {
           'Authorization': `Bearer ${jwtToken}`,
         },
       };
-
+      
 
       const response = await axios.post(url, payload, config);
 
@@ -70,7 +70,7 @@ const JobDescription = () => {
 
     }
     catch (err) {
-      setError('An error occurred during submission.');
+      setError(err.response && err.response.data && err.response.data.detail ? err.response.data.detail : 'An error occurred during submission.');
     }
     setLoading(false);
   }
