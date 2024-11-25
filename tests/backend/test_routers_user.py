@@ -9,11 +9,11 @@ client = TestClient(app)
 
 # Test for valid data
 def test_valid_user():
-    '''
+    """
     Tests the create_user_profile function
 
     Takes valid user information and stores it into the database. Ensures users can create accounts with valid input.
-    '''
+    """
 
     response = client.post(
         "/api/register",
@@ -29,11 +29,11 @@ def test_valid_user():
 
 # test if the same email is used for 2 different users
 def test_duplicate_emails():
-    '''
+    """
     Tests the create_user_profile function
 
     Takes in users with duplicate emails and attempts to make two accounts. Ensures two users cannot use the same email.
-    '''
+    """
     response = client.post(
         "/api/register",
         json={
