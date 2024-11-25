@@ -2,8 +2,15 @@
 
 ## Frontend 
 
-1. ``npm install`` - Installs Dependencies 
-2. ``npm run dev``
+1. ``cd frontend``
+2. ``npm install`` - Installs Dependencies 
+3. ``npm run dev``
+
+## Frontend Tests with code coverage requirement of 80%
+
+1. ``cd frontend``
+2. ``npm install`` - Installs Dependencies 
+3. ``npx jest --coverage --coverageThreshold '{"global":{"branches":80,"functions":80,"lines":80,"statements":80}}'``
 
 ## Backend 
 1. ``pip install -r backend/requirements.txt``

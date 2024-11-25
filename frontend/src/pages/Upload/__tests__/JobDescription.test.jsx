@@ -148,4 +148,22 @@ describe('JobDescription Component', () => {
     await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), { timeout: 1500 }); //WAIT for loading to stop after succeess
     expect(await screen.findByText(/Job description uploaded successfully!/)).toBeInTheDocument();
   });
+  it('display a custom error message - job description', async () => {
+    // axios.post.mockRejectedValueOnce(new Error('API fail'));
+    axios.post.mockRejectedValueOnce({
+      response: {
+        status: 400,
+        data: { detail: 'custom error' },
+      },
+    });
+    render(<JobDescription />);
+
+    const textArea = screen.getByPlaceholderText(/Enter job description here/i);
+    const submitButton = screen.getByRole('button', { name: /upload/i });
+
+    fireEvent.change(textArea, { target: { value: 'Invalid desc' } });
+    fireEvent.click(submitButton);
+
+    expect(await screen.findByText("custom error")).toBeInTheDocument();
+  });
 });

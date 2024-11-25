@@ -167,4 +167,28 @@ describe('SignUp Component', () => {
     await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), { timeout: 1500 }); //WAIT for loading to stop after succeess
     expect(screen.getByText('Login')).toBeInTheDocument(); //find end message
   });
+
+  it('shows custom error message signup', async () => {
+    axios.post.mockRejectedValueOnce({
+      response: {
+        status: 400,
+        data: { detail: 'custom error' },
+      },
+    });
+
+
+    render(<SignUp />);
+    const user = userEvent.setup();
+    await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
+    await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
+    await user.type(screen.getByPlaceholderText('Password'), 'safwanbad');
+    await user.type(screen.getByPlaceholderText('Confirm Password'), 'safwanbad');
+    await user.click(screen.getByRole('button', { name: /sign up/i }));
+
+    expect(await screen.findByText('custom error')).toBeInTheDocument();
+
+    
+  });
+
+
 });

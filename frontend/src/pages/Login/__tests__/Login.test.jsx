@@ -130,5 +130,21 @@ describe('Login Component', () => {
     expect(screen.getByText('Upload')).toBeInTheDocument();
   });
   
+  it('show custom error message login', async () => {
+    axios.post.mockRejectedValueOnce({
+      response: {
+        status: 400,
+        data: { detail: 'custom error' },
+      },
+    });
 
+    render(<Login />);
+    const user = userEvent.setup();
+    await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
+    await user.type(screen.getByPlaceholderText('Password'), 'wrongpassword');
+    await user.click(screen.getByRole('button', { name: /sign in/i }));
+
+    expect(await screen.findByText('custom error')).toBeInTheDocument();
+    
+  });
 });
