@@ -23,10 +23,10 @@ const JobDescription = () => {
   const getCharacterWarning = () => {
     const remaining = getRemainingCharacters();
     if (remaining < 0) {
-        return <p className='warning-exceed'>Character limit exceeded</p>
+      return <p className='warning-exceed'>Character limit exceeded</p>
     }
     else if (remaining <= 100) {
-        return <p className='warning-approach'>You are almost at the character limit</p>
+      return <p className='warning-approach'>You are almost at the character limit</p>
     }
     return null
   }
@@ -39,36 +39,36 @@ const JobDescription = () => {
     setError('');
 
     if (text.length > charLimit) {
-        setError('Character limit exceeded');
-        return;
+      setError('Character limit exceeded');
+      return;
     }
 
     // Attempt to upload the text using axios
     try {
-        const jwtToken="test"
-        const url = 'http://127.0.0.1:8000/api/job-description';
-        const payload = { job_description: text };
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`,
-          },
-        };
-    
+      const jwtToken = localStorage.getItem('token');
+      const url = 'http://127.0.0.1:8000/api/job-description';
+      const payload = { job_description: text };
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`,
+        },
+      };
 
-        const response = await axios.post(url, payload, config);
 
-        if (response.status === 200) {
-            setSuccess('Job description uploaded successfully!');
-            setText('');
-          }
-          else {
-            setError('Failed to upload job description.');
-          }
-    
+      const response = await axios.post(url, payload, config);
+
+      if (response.status === 200) {
+        setSuccess('Job description uploaded successfully!');
+        setText('');
+      }
+      else {
+        setError('Failed to upload job description.');
+      }
+
     }
     catch (err) {
-        setError('An error occurred during submission.');
+      setError('An error occurred during submission.');
     }
 
   }
@@ -76,32 +76,32 @@ const JobDescription = () => {
   // Page layout and JSX structure for text upload form
   return (
     <div className="job-description">
-        <form onSubmit={handleSubmit}>
-          <h1>Job Description</h1>
-          <div className='input-container'>
-            <textarea
-                value={text}
-                onChange={handleChange}
-                placeholder="Enter job description here..."
-            />
-            <button 
-                type="submit"
-                disabled={!text || text.length > charLimit}
-                >Upload
-            </button>
-          </div>
-          <div className='char-info'>
-            <p>{text.length} / {charLimit} characters</p>
-            {getCharacterWarning()}
-            {getRemainingCharacters() >= 0 && (
-                <p>{getRemainingCharacters()} characters remaining</p>
-            )}
-          </div>
-          <div className='message-container'>
-            {error && <p className="error">{error}</p>}
-            {success && <p className="success">{success}</p>}
-          </div>
-        </form>
+      <form onSubmit={handleSubmit}>
+        <h1>Job Description</h1>
+        <div className='input-container'>
+          <textarea
+            value={text}
+            onChange={handleChange}
+            placeholder="Enter job description here..."
+          />
+          <button
+            type="submit"
+            disabled={!text || text.length > charLimit}
+          >Upload
+          </button>
+        </div>
+        <div className='char-info'>
+          <p>{text.length} / {charLimit} characters</p>
+          {getCharacterWarning()}
+          {getRemainingCharacters() >= 0 && (
+            <p>{getRemainingCharacters()} characters remaining</p>
+          )}
+        </div>
+        <div className='message-container'>
+          {error && <p className="error">{error}</p>}
+          {success && <p className="success">{success}</p>}
+        </div>
+      </form>
     </div>
   );
 }

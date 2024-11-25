@@ -52,7 +52,7 @@ function FileUpload(){
 
     // Attempt to upload the file using axios
     try {
-      const jwtToken="test"
+      const jwtToken = localStorage.getItem('token');
       const url = 'http://127.0.0.1:8000/api/resume-upload';
       const payload = formData;
       const config = {
