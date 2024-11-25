@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import Dashboard from '../Dashboard';
+import React from 'react'; 
 
 describe('Dashboard Component', () => {
   it('states resume fit score, skills, improvement', () => {
