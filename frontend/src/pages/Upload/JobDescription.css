@@ -1,0 +1,31 @@
+#root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+.char-info {
+margin-top: 10px;
+font-size: 14px;
+}
+
+.warning-approach {
+color: orange;
+font-size: 14px;
+}
+
+.warning-exceed {
+color: red;
+font-size: 14px;
+}

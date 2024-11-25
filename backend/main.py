@@ -1,6 +1,25 @@
 from fastapi import FastAPI
-app = FastAPI()
+from backend.routers import UserRouter
+from backend.routers import ResumeUploadRouter
+from backend.routers import LoginRouter
+from backend.routers import JobDescriptionRouter
+from fastapi.middleware.cors import CORSMiddleware
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app = FastAPI()
+origins = [
+    "http://localhost:5173",  # React frontend
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,  # Allows cookies and authentication headers
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all HTTP headers
+)
+
+# Include the router with a prefix (optional)
+app.include_router(UserRouter)
+app.include_router(ResumeUploadRouter)
+app.include_router(LoginRouter)
+app.include_router(JobDescriptionRouter)
