@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../../assets/global.css';
 import Loading from '../../components/Loading'
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Handles functionality of login page with email, username, password, confirmpassword
 function SignUp() {
@@ -12,7 +12,7 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [notification, setNotification] = useState('');
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // Function that handles button click and sends the SignUp data to server if valid
   const onButtonClick = async (e) => {
     e.preventDefault();
@@ -35,7 +35,7 @@ function SignUp() {
         // setTimeout(() => {
         //   navigate('/login');  
         // }, 500); 
-        // navigate('/login');
+        navigate('/login');
       } else {
         throw new Error('Signup failed email is not unique');
       }

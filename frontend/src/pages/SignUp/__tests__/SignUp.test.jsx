@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import SignUp from '../SignUp';
 import { AuthProvider } from '../../../context/AuthContext';
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 jest.mock('axios');
 describe('SignUp Component', () => {
 
@@ -14,7 +15,17 @@ describe('SignUp Component', () => {
 
   //inside it is what I expect to happen and what will be verified 
   it('should render form w/ all input fields and submit button', () => {
-    render(<AuthProvider><SignUp /></AuthProvider>);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/register"]}>
+          <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
+
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
@@ -24,7 +35,16 @@ describe('SignUp Component', () => {
 
   //needs to be reviewed 
   it('show text if passwords do not match', async () => {
-    render(<AuthProvider><SignUp /></AuthProvider>);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/register"]}>
+          <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
     const user = userEvent.setup();
     //use awaits to make sure jest does not proceed due to promise 
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
@@ -37,14 +57,23 @@ describe('SignUp Component', () => {
     //? correct when "Signup failed email is not unique"
   });
 
-  it('send post request and show success text on successful signup', async () => {
+  it('send post request and show change page on successful signup', async () => {
     //mock a response 
     axios.post.mockResolvedValueOnce({
       status: 201,
       data: { message: 'User registered' },
     });
 
-    render(<AuthProvider><SignUp /></AuthProvider>);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/register"]}>
+          <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
@@ -53,7 +82,7 @@ describe('SignUp Component', () => {
     await user.click(screen.getByRole('button', { name: /sign up/i }));
 
     // check for success text
-    expect(await screen.findByText('Signup completed')).toBeInTheDocument();
+    expect(screen.getByText('Login')).toBeInTheDocument();
 
     //check it calls correct location, with correct data, and that it calls it only once
     expect(axios.post).toHaveBeenCalledWith('http://127.0.0.1:8000/api/register', {
@@ -70,7 +99,16 @@ describe('SignUp Component', () => {
       data: { message: 'Email is not unique' },
     });
 
-    render(<AuthProvider><SignUp /></AuthProvider>);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/register"]}>
+          <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
     const user = userEvent.setup();
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
     await user.type(screen.getByPlaceholderText('Username'), 'jeremy');
@@ -106,7 +144,16 @@ describe('SignUp Component', () => {
       })
     );
 
-    render(<AuthProvider><SignUp /></AuthProvider>);
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/register"]}>
+          <Routes>
+            <Route path="/register" element={<SignUp />} />
+            <Route path="/login" element={<div>Login</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>
+    );
     const user = userEvent.setup();
 
     await user.type(screen.getByPlaceholderText('Email'), 'jck44@example.com');
@@ -118,6 +165,6 @@ describe('SignUp Component', () => {
     expect(screen.getByText('Loading...')).toBeInTheDocument(); // find loading to appear immedietely 
 
     await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), { timeout: 1500 }); //WAIT for loading to stop after succeess
-    expect(screen.getByText('Signup completed')).toBeInTheDocument(); //find end message
+    expect(screen.getByText('Login')).toBeInTheDocument(); //find end message
   });
 });

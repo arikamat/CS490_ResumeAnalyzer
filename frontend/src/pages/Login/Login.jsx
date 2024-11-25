@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../../assets/global.css';
 import Loading from '../../components/Loading'
 import { useAuth } from '../../context/AuthContext';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // Handles functionality of login page with email and password
 function Login() {
   const { isAuth, login } = useAuth();
@@ -11,7 +11,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [notification, setNotification] = useState('');
   const [loading, setLoading] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // Function that handles button click and sends the Login data to server
   const onButtonClick = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ function Login() {
         // setTimeout(() => {
         //   navigate('/upload');  
         // }, 500); 
-        // navigate('/upload');
+        navigate('/upload');
       } else {
         throw new Error('Login failed wrong credentials');
       }
