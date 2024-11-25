@@ -25,7 +25,7 @@ const Login = () => {
         throw new Error('Login failed wrong credentials');
       }
     } catch (error) {
-      setNotification(`Login failed wrong credentials`);
+      setNotification(error.response.data.detail ? error.response.data.detail : "Login Failed");
     }
     setLoading(false);
   };

@@ -72,7 +72,7 @@ function FileUpload() {
 
     }
     catch (err) {
-      setError('An error occurred during file upload.');
+      setError(err.response.data.detail ? err.response.data.detail : 'An error occurred during file upload.');
       setSuccess('');
     }
     setLoading(false);
