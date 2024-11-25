@@ -118,4 +118,23 @@ describe('FileUpload Component', () => {
     expect(await screen.findByText(/File uploaded successfully!/)).toBeInTheDocument();
 
   });
+  it('display a custom error message file upload', async () => {
+    // axios.post.mockRejectedValueOnce(new Error('API fail'));
+    axios.post.mockRejectedValueOnce({
+      response: {
+        status: 400,
+        data: { detail: 'custom error' },
+      },
+    });
+
+    render(<FileUpload />);
+
+    const fileInput = screen.getByLabelText('Upload File');
+    const validFile = new File(['content'], 'safnoor.pdf', { type: 'application/pdf' });
+    await userEvent.upload(fileInput, validFile);
+    const uploadButton = screen.getByRole('button', { name: /upload/i });
+    await userEvent.click(uploadButton);
+
+    expect(await screen.findByText("custom error")).toBeInTheDocument();
+  });
 });

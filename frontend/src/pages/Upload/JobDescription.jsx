@@ -70,7 +70,7 @@ const JobDescription = () => {
 
     }
     catch (err) {
-      setError(error.response && error.response.data && error.response.data.detail ? err.response.data.detail : 'An error occurred during submission.');
+      setError(err.response && err.response.data && err.response.data.detail ? err.response.data.detail : 'An error occurred during submission.');
     }
     setLoading(false);
   }
