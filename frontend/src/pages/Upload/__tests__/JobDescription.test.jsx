@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent  } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import JobDescription from '../JobDescription';
@@ -46,7 +46,7 @@ describe('JobDescription Component', () => {
     render(<JobDescription />);
     const textArea = screen.getByPlaceholderText(/Enter job description here/i);
     const submitButton = screen.getByRole('button', { name: /upload/i });
-  
+
     //place characters
     fireEvent.change(textArea, { target: { value: 'j'.repeat(5001) } });
     expect(submitButton).toBeDisabled();
@@ -56,9 +56,9 @@ describe('JobDescription Component', () => {
   it('display success text on successful call', async () => {
     //have to use Storage prototype and have it spy with to returning our fake token
     jest.spyOn(Storage.prototype, 'getItem').mockImplementation((key) => {
-        if (key === 'token') return 'idontlikethis';
-        return null;
-      });
+      if (key === 'token') return 'idontlikethis';
+      return null;
+    });
     axios.post.mockResolvedValueOnce({ status: 200 });
     render(<JobDescription />);
 
@@ -113,5 +113,38 @@ describe('JobDescription Component', () => {
     render(<JobDescription />);
     const submitButton = screen.getByRole('button', { name: /upload/i });
     expect(submitButton).toBeDisabled();
+  });
+
+  it('displays loading component while the job description upload is in progress', async () => {
+    //set timeout for entire test 
+    jest.setTimeout(10000);
+
+    // const mockResponse = {  status: 200 }; // give fake token to pass
+
+    axios.post.mockImplementation(() =>
+      new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            status: 200
+          }); //make it sucess
+        }, 1000); // give one second delay
+      })
+    );
+    // const user = userEvent.setup();
+
+    render(<JobDescription />);
+
+    const textArea = screen.getByPlaceholderText(/Enter job description here/i);
+    const submitButton = screen.getByRole('button', { name: /upload/i });
+
+    //placing valid one 
+    fireEvent.change(textArea, { target: { value: 'valid'.repeat(300) } });
+    fireEvent.click(submitButton);
+
+    
+
+    expect(screen.getByText('Loading...')).toBeInTheDocument(); // find loading to appear immedietely 
+    await waitFor(() => expect(screen.queryByText('Loading...')).not.toBeInTheDocument(), { timeout: 1500 }); //WAIT for loading to stop after succeess
+    expect(await screen.findByText(/Job description uploaded successfully!/)).toBeInTheDocument();
   });
 });
