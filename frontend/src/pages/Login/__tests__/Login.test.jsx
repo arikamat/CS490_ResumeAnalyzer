@@ -83,7 +83,7 @@ describe('Login Component', () => {
     await user.type(screen.getByPlaceholderText('Password'), 'correctpassword');
     await user.click(screen.getByRole('button', { name: /sign in/i }));
   
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(await screen.findByText('Loading...')).toBeInTheDocument();
     jest.advanceTimersByTime(500);
 
     expect(await screen.findByText('Loading')).not.toBeInTheDocument();
