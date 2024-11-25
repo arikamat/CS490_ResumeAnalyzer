@@ -1,0 +1,65 @@
+body {
+    background-color: #1f2937;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .dashboardTitle {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .panelsContainer {
+    display: flex;
+    gap: 2rem; 
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+  }
+  
+  .panel {
+    background-color: #15171e; 
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 45%;
+    color: #ffffff;
+    font-size: 1.1rem;
+  }
+  
+  .fitScoreContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1px;
+  }
+  
+  .progressBar {
+    width: 100%;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  
+  .progressFill {
+    height: 100%;
+    background-color: #3b82f6;
+    border-radius: 5px 0 0 5px;
+  }
+  
