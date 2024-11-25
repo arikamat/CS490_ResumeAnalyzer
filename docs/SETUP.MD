@@ -15,6 +15,7 @@
 ## Backend 
 1. ``pip install -r backend/requirements.txt``
 2. ``uvicorn backend.main:app --reload``
+3. Move ``.env`` file into backend folder. Contact a developer (README.md) for access to .env file
 
 ## Backend Tests with code coverage requirement of 80%
 1. ``pip install -r backend/requirements.txt``
