@@ -4,7 +4,7 @@ from groq import Groq, AuthenticationError, APIConnectionError
 import os
 
 
-def prompt_nlp_model(prompt, api_inputted_key): 
+def prompt_nlp_model(prompt):
     """
     Prompts the API and with information
 
@@ -15,11 +15,13 @@ def prompt_nlp_model(prompt, api_inputted_key):
         JSON: a dictionary with the information regarding the prompt and response
     """
 
-    #create an instance of groq with our API key
-    client = Groq(api_key= api_inputted_key,)
-    
+    # create an instance of groq with our API key
+    client = Groq(
+        api_key=os.getenv("GROQ_API_KEY"),
+    )
+
     try:
-        #API call
+        # API call
         api_prompt = client.chat.completions.create(
             messages=[
                 {
@@ -28,17 +30,15 @@ def prompt_nlp_model(prompt, api_inputted_key):
                 }
             ],
             model="llama3-8b-8192",
-
         )
 
-    #if the API key is invalid
+    # if the API key is invalid
     except AuthenticationError:
-        return "API KEY IS INVALID"
+        return {"error": "API KEY is invalid"}
 
-    #if no API key is inputted
+    # if no API key is inputted
     except APIConnectionError:
-        return "NO API KEY PROVIDED"
+        return {"error": "No API KEY provided"}
 
-    #return the information into a json format
+    # return the information into a json format
     return json.loads(api_prompt.model_dump_json(indent=2))
-
