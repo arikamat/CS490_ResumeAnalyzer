@@ -27,6 +27,9 @@ def test_invalid_api_key(monkeypatch):
     """
     Tests the prompt_npl_model function
 
+    Args:
+        monkeypatch: allows us to temporarily modify the environmental variables for the duration of the test
+
     Makes sure that nothing happens if the API key is invalid
     """
     
@@ -43,6 +46,9 @@ def test_invalid_api_key(monkeypatch):
 def test_missing_api_key(monkeypatch):
     """
     Tests the prompt_npl_model function
+
+    Args:
+        monkeypatch: allows us to temporarily modify the environmental variables for the duration of the test
 
     Makes sure that nothing happens if there is no API key
     """
