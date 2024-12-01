@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 import json
 from groq import Groq, AuthenticationError, APIConnectionError
 import os
+from backend.schemas import FitScore
 
 
 def prompt_nlp_model(prompt):
@@ -32,6 +33,11 @@ def prompt_nlp_model(prompt):
             model="llama3-8b-8192",
         )
 
+        # return the information into a json format
+        text = api_prompt.choices[0].message.content
+        json_response = json.loads(text)
+        res = FitScore(**json_response)
+
     # if the API key is invalid
     except AuthenticationError:
         return {"error": "API KEY is invalid"}
@@ -40,11 +46,8 @@ def prompt_nlp_model(prompt):
     except APIConnectionError:
         return {"error": "No API KEY provided"}
 
-    # return the information into a json format
-    text = api_prompt.choices[0].message.content
-    json_response = json.loads(text)
+    # if organizing the response into FitScore doesn't work
+    except json.decoder.JSONDecodeError:
+        return {"error": "API Response was not in the correct format"}
 
-    if not json_response["fit_score"] or not json_response["feedback"]:
-        return {"error" : "model response not in desired format"}
-
-    return json.loads(text)
+    return res

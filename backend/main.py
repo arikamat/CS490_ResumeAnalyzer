@@ -25,4 +25,3 @@ app.include_router(ResumeUploadRouter)
 app.include_router(LoginRouter)
 app.include_router(JobDescriptionRouter)
 app.include_router(UserInputRouter)
-
