@@ -41,4 +41,10 @@ def prompt_nlp_model(prompt):
         return {"error": "No API KEY provided"}
 
     # return the information into a json format
-    return json.loads(api_prompt.model_dump_json(indent=2))
+    text = api_prompt.choices[0].message.content
+    json_response = json.loads(text)
+
+    if not json_response["fit_score"] or not json_response["feedback"]:
+        return {"error" : "model response not in desired format"}
+
+    return json.loads(text)

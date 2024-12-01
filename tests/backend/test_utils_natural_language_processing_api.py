@@ -12,15 +12,41 @@ def test_valid_prompt_and_api_key():
     Takes the prompt and valid API key and returns a json that contains the response as well as other information on the prompt
     """
 
-    # REAL TEST -> response_json = prompt_nlp_model(os.getenv("GROQ_API_KEY"))
+
+    prompt = """
+
+    "This is a resume: michael is a computer scientist who worked at google he is good at C,Python, and Bash. 
+    This is a job description: We are looking for computer scientists here at Amazon who are good at Bash and Java.    
+    
+    Create a fitscore for how well the resume fits and return it in json format like 
+    {
+        "fit_score": 85,
+        "feedback": [
+            "Add skills related to project management.",
+            "Improve your summary section to include specific achievements."
+        ]
+    }
+
+    ONLY RETURN THE JSON AND NOTHING ELSE
+
+    """
+    
+    #REAL TEST -> response_json = prompt_nlp_model(prompt)
     
     #mock return value
-    response_json = {'id': 'chatcmpl-d848c6d0-09b2-422a-a186-3f1d185fb767', 'choices': [{'finish_reason': 'stop', 'index': 0, 'logprobs': None, 'message': {'content': "Hi! It's nice to meet you. Is there something I can help you with or would you like to chat?", 'role': 'assistant', 'function_call': None, 'tool_calls': None}}], 'created': 1733002669, 'model': 'llama3-8b-8192', 'object': 'chat.completion', 'system_fingerprint': 'fp_6a6771ae9c', 'usage': {'completion_tokens': 25, 'prompt_tokens': 12, 'total_tokens': 37, 'completion_time': 0.020833333, 'prompt_time': 0.001769811, 'queue_time': 0.011339129, 'total_time': 0.022603144}, 'x_groq': {'id': 'req_01jdzg4btfetsv4ca968w6c182'}}
+    response_json = {
+        "fit_score": 85,
+        "feedback": [
+            "Add skills related to project management.",
+            "Improve your summary section to include specific achievements."
+        ]
+    }
 
     #test that a json is returned
     assert type(response_json) == dict;
     #test that there is a response and the response is not empty
-    assert response_json['choices'][0]['message']['content']
+    assert response_json["fit_score"]
+    assert response_json["feedback"]
 
 
 def test_invalid_api_key(monkeypatch):
