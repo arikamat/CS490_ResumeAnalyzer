@@ -3,6 +3,7 @@ from backend.routers import UserRouter
 from backend.routers import ResumeUploadRouter
 from backend.routers import LoginRouter
 from backend.routers import JobDescriptionRouter
+from backend.routers import UserInputRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -23,3 +24,4 @@ app.include_router(UserRouter)
 app.include_router(ResumeUploadRouter)
 app.include_router(LoginRouter)
 app.include_router(JobDescriptionRouter)
+app.include_router(UserInputRouter)
