@@ -8,18 +8,25 @@ router = APIRouter()
 
 #put this variable outside to change it in tests
 prompt_format = """
+Generate a fit score to evaluate how well the resume matches the job description. Return the result in JSON format with the following structure:
 
-        Create a fitscore for how well the resume fits and return it in json format like 
-        
-            "fit_score": 85,
-            "feedback": [
-                "Add skills related to project management.",
-                "Improve your summary section to include specific achievements."
-            ]
-        ",
+{
+    "fit_score": 85,
+    "feedback": [
+        "Add skills related to project management.",
+        "Improve your summary section to include specific achievements."
+    ]
+}
 
-        ONLY RETURN THE JSON AND NOTHING ELSE
-    """
+Ensure the JSON output is precise and includes:
+1. A numerical fit score between 0 and 100. (A percentage)
+2. A list of actionable feedback points.
+
+The feedback should only provide actionable suggestions to improve the resume. Do not include any information about how the fit score was calculated. 
+
+Return ONLY the JSON output and nothing else.
+
+"""
 
 @router.post("/api/analyze")
 async def accept_user_input(user_input: UserInput):
