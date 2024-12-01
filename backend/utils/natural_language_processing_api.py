@@ -2,8 +2,6 @@ from dotenv import load_dotenv
 import json
 from groq import Groq, AuthenticationError, APIConnectionError
 import os
-from backend.schemas import FitScore
-from pydantic import ValidationError
 
 
 def prompt_nlp_model(prompt):
@@ -37,7 +35,6 @@ def prompt_nlp_model(prompt):
         # return the information into a json format
         text = api_prompt.choices[0].message.content
         json_response = json.loads(text)
-        res = FitScore(**json_response)
 
     # if the API key is invalid
     except AuthenticationError:
@@ -51,8 +48,6 @@ def prompt_nlp_model(prompt):
     except json.decoder.JSONDecodeError:
         return {"error": "API Response was not in the correct format"}
     
-    #if there is an error fitting into the pydantic basemodel
-    except ValidationError:
-        return {"error": "Cannot fit API response into FitScore"}
+    
 
-    return res
+    return json_response

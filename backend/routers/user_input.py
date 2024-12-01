@@ -1,6 +1,8 @@
 from fastapi import APIRouter, status, HTTPException
+from pydantic import ValidationError
 from backend.schemas import UserInput
 from backend.utils import prompt_nlp_model
+from backend.schemas import FitScore
 
 router = APIRouter()
 
@@ -71,5 +73,9 @@ async def accept_user_input(user_input: UserInput):
                 "error": "Unable to process request at this time. Please try again later."
             },
         )
-
-    return response_json
+    try:
+        res = FitScore(**response_json)
+    
+    except ValidationError:
+        return {"error": "Cannot fit API response into FitScore"}
+    return res.model_dump()
