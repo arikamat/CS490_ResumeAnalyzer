@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from fastapi import FastAPI
 import pytest
 from backend import app
+import backend.routers.user_input as user_input
 from unittest.mock import MagicMock
 
 
@@ -199,11 +200,48 @@ def test_too_long_resume_and_description():
     #mock values
     response.status_code = 400
     response.json.return_value = {"detail": {"error": "Resume text is over the 10,000 character limit"}}
+    
     #failure code
     assert response.status_code == 400
     #too long resume text error since resume is checked first
     assert response.json() == {"detail": {"error": "Resume text is over the 10,000 character limit"}}
 
+
+# Test for missing resume and/or job description
+def test_invalid_basemodel(monkeypatch):
+    """
+    Tests the accept_user_input function
+
+    Args:
+        monkeypatch: allows us to temporarily modify a variable to allow us to simulate the error easily
+
+    Handles the error that would arise if the API prompt does not return in the correct format
+    """
+
+    monkeypatch.setattr(user_input, "prompt_format", "")
+    
+    #missing resume text post
+    """
+    REAL TEST
+
+    response = client.post(
+        "/api/analyze",
+        json={
+            "resume_text": "I worked at google as software engineer and know python",
+            "job_description": "Looking for a Senior Software Engineer with at least 5 years of experience. Experience with Python and C++ is preferred.",
+        },
+    )
+
+    """
+
+    #mock values
+    response.status_code = 500
+    response.json.return_value = {"detail": {"error": "Unable to process request at this time. Please try again later."}}
+
+    #failure code
+    assert response.status_code == 500
+    #API call failed
+    assert response.json() == {"detail": {"error": "Unable to process request at this time. Please try again later."}}
 
 
 

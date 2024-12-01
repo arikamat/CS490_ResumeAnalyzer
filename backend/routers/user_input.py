@@ -4,6 +4,20 @@ from backend.utils import prompt_nlp_model
 
 router = APIRouter()
 
+#put this variable outside to change it in tests
+prompt_format = """
+
+        Create a fitscore for how well the resume fits and return it in json format like 
+        
+            "fit_score": 85,
+            "feedback": [
+                "Add skills related to project management.",
+                "Improve your summary section to include specific achievements."
+            ]
+        ",
+
+        ONLY RETURN THE JSON AND NOTHING ELSE
+    """
 
 @router.post("/api/analyze")
 async def accept_user_input(user_input: UserInput):
@@ -45,21 +59,7 @@ async def accept_user_input(user_input: UserInput):
         f"""
         This is the resume: {user_input.resume_text}
         This is the job description: {user_input.job_description}
-        """
-        + """
-
-        Create a fitscore for how well the resume fits and return it in json format like 
-        
-            "fit_score": 85,
-            "feedback": [
-                "Add skills related to project management.",
-                "Improve your summary section to include specific achievements."
-            ]
-        ",
-
-        ONLY RETURN THE JSON AND NOTHING ELSE
-    """
-    )
+        """) + prompt_format    
 
     response_json = prompt_nlp_model(prompt)
 
