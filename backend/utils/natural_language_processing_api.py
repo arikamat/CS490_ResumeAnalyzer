@@ -3,6 +3,7 @@ import json
 from groq import Groq, AuthenticationError, APIConnectionError
 import os
 from backend.schemas import FitScore
+from pydantic import ValidationError
 
 
 def prompt_nlp_model(prompt):
@@ -49,5 +50,9 @@ def prompt_nlp_model(prompt):
     # if organizing the response into FitScore doesn't work
     except json.decoder.JSONDecodeError:
         return {"error": "API Response was not in the correct format"}
+    
+    #if there is an error fitting into the pydantic basemodel
+    except ValidationError:
+        return {"error": "Cannot fit API response into FitScore"}
 
     return res
