@@ -3,6 +3,7 @@ from pydantic import ValidationError
 from backend.schemas import UserInput
 from backend.utils import prompt_nlp_model
 from backend.schemas import FitScore
+from backend.utils.nlp import calculate_fit_score
 
 router = APIRouter()
 
@@ -85,4 +86,5 @@ async def accept_user_input(user_input: UserInput):
     
     except ValidationError:
         return {"error": "Cannot fit API response into FitScore"}
+    calculate_fit_score(user_input)
     return res.model_dump()
