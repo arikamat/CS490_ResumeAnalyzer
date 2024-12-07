@@ -7,7 +7,7 @@ from backend.utils.nlp import calculate_fit_score
 
 router = APIRouter()
 
-#put this variable outside to change it in tests
+# put this variable outside to change it in tests
 prompt_format = """
 Generate a fit score to evaluate how well the resume matches the job description. Return the result in JSON format with the following structure:
 
@@ -28,6 +28,7 @@ The feedback should only provide actionable suggestions to improve the resume. D
 Return ONLY the JSON output and nothing else.
 
 """
+
 
 @router.post("/api/analyze")
 async def accept_user_input(user_input: UserInput):
@@ -66,10 +67,14 @@ async def accept_user_input(user_input: UserInput):
         )
 
     prompt = (
-        f"""
+        (
+            f"""
         This is the resume: {user_input.resume_text}
         This is the job description: {user_input.job_description}
-        """) + prompt_format    
+        """
+        )
+        + prompt_format
+    )
 
     response_json = prompt_nlp_model(prompt)
 
@@ -83,9 +88,9 @@ async def accept_user_input(user_input: UserInput):
         )
     try:
         res = FitScore(**response_json)
-    
+
     except ValidationError:
         return {"error": "Cannot fit API response into FitScore"}
     score, missing = calculate_fit_score(user_input)
-    print(score,missing)
+    print(score, missing)
     return res.model_dump()
