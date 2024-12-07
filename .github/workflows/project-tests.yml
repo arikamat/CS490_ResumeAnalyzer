@@ -29,8 +29,12 @@ jobs:
     - name: Install backend dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r backend/requirements.txt  
+        pip install -r backend/requirements.txt 
 
+    - name: Download WordNet from NLTK
+      run: |
+        python -c "import nltk; nltk.download('wordnet')"
+        
     # Create the .env file from GitHub secrets
     - name: Create .env file
       run: |
