@@ -223,7 +223,7 @@ def calculate_fit_score(user_input: UserInput):
         3. Calculates the fit score and missing keywords by comparing processed 
            keywords across categories, applying weights to categories (skills: 60%, 
            experience: 20%, education: 20%). Uses stemming and synonym matching to maximize chances of a match
-        5. Returns the fit score and a schema detailing missing keywords.
+        4. Returns the fit score and a schema detailing missing keywords.
     """
     resume_prompt = RESUME_PROMPT + user_input.resume_text
     job_prompt = JOB_DESCRIPTION_PROMPT + user_input.job_description
