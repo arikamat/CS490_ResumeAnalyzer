@@ -46,8 +46,12 @@ def prompt_nlp_model(prompt):
 
     # if organizing the response into FitScore doesn't work
     except json.decoder.JSONDecodeError:
-        return {"error": "API Response was not in the correct format"}
-    
-    
+        try:
+            text = api_prompt.choices[0].message.content + "}"
+            json_response = json.loads(text)
+        except:
+            return {"error": "API Response was not in the correct format"}
 
     return json_response
+
+
