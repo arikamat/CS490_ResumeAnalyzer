@@ -141,6 +141,9 @@ Professional Development
 Attended one-day seminar on "Effective Communication in the Workplace" in 2019.
 """
 def test_calculate_fit_score_normal():
+    """
+    Test the calculate_fit_score function with a good and bad resume. Ensures that the fit score for the good resume is hgiher than that of the bad resume
+    """
     score_good, missing_good = calculate_fit_score(UserInput(resume_text=GOOD_RESUME, job_description=JOB_DESCRIPTION))
     score_bad, missing_bad = calculate_fit_score(UserInput(resume_text=BAD_RESUME, job_description=JOB_DESCRIPTION))
     print(score_good, score_bad)
@@ -148,6 +151,9 @@ def test_calculate_fit_score_normal():
 
 
 def test_calculate_fit_score_empty_inputs():
+    """
+    Test the calculate_fit_score function with empty strings. Ensures that scores are 0
+    """
     score_empty_resume, missing_empty_resume = calculate_fit_score(UserInput(resume_text="", job_description=JOB_DESCRIPTION))
     score_empty_job, missing_empty_job = calculate_fit_score(UserInput(resume_text=GOOD_RESUME, job_description=""))
     score_both_empty, missing_both_empty = calculate_fit_score(UserInput(resume_text="", job_description=""))
@@ -157,6 +163,9 @@ def test_calculate_fit_score_empty_inputs():
     assert score_both_empty == 0
 
 def test_calculate_fit_score_non_string_inputs():
+    """
+    Test the calculate_fit_score function with non-string inputs. Ensures that an exception is raised
+    """
     with pytest.raises(Exception):
         calculate_fit_score(UserInput(resume_text=None, job_description=JOB_DESCRIPTION))
 
@@ -164,6 +173,9 @@ def test_calculate_fit_score_non_string_inputs():
         calculate_fit_score(UserInput(resume_text=12345, job_description=JOB_DESCRIPTION))
 
 def test_calculate_match_score_no_cat_key():
+    """
+    Test the calculate_match_score util function with empty list of keywords. Ensure that appropriate indvidiual score is assigned.
+    """
     job = {"skills": ["python"], "education": ["bachelor"], "experience": []}
     resume = {"skills": ["python"], "education": ["bachelor"], "experience": []}
     WEIGHTS = {"skills": 0.6, "experience": 0.2, "education": 0.2}
