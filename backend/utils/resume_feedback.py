@@ -30,6 +30,4 @@ def generate_feedback(user_input: UserInput):
     }
 
     # Step 4: Return feedback
-    return {
-        feedback
-    }
+    return feedback
