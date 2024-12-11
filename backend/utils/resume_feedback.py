@@ -55,10 +55,18 @@ def generate_feedback(user_input: UserInput):
     categories = ["skills", "experience", "education"]
     missing_keywords = {category: getattr(missing_schema, category) for category in categories}
 
-    # Step 3: Prepare the prompt for Groq AI
+    # Step 3: Check if all entries in missing_keywords are empty
+    if all(not keywords for keywords in missing_keywords.values()):
+        # If there are no missing keywords, return empty suggestions 
+         return {
+            "missing_keywords": missing_keywords,
+            "suggestions": []
+        }
+
+    # Step 4: Prepare the prompt for Groq AI
     prompt = FEEDBACK_PROMPT + json.dumps(missing_keywords, indent=2)
 
-    # Step 4: Prompt Groq AI
+    # Step 5: Prompt Groq AI
     retry = 0
     max_retries = 5
 
@@ -72,7 +80,7 @@ def generate_feedback(user_input: UserInput):
 
     suggestions = [feedback for category in response.values() for feedback in category.values()]
 
-    # Step 5: Return the feedback
+    # Step 6: Return the feedback
     return {
         "missing_keywords": missing_keywords,
         "suggestions": suggestions
