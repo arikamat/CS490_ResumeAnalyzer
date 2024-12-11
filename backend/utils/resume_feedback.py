@@ -58,7 +58,7 @@ def generate_feedback(user_input: UserInput):
     # Step 3: Check if all entries in missing_keywords are empty
     if all(not keywords for keywords in missing_keywords.values()):
         # If there are no missing keywords, return empty suggestions 
-         return {
+        return {
             "missing_keywords": missing_keywords,
             "suggestions": []
         }
@@ -73,6 +73,7 @@ def generate_feedback(user_input: UserInput):
     while retry < max_retries:
         try:
             response = prompt_nlp_model(prompt)
+            response = json.loads(response)
             break
         except Exception as e:
             retry += 1
