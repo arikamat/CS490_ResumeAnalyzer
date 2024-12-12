@@ -77,11 +77,19 @@ def generate_feedback(user_input: UserInput):
             break
         except Exception as e:
             retry += 1
+            # response = None
             pass
+          
+    if not response or not isinstance(response, dict):
+      return {"missing_keywords": missing_keywords, "suggestions": []}
 
-    suggestions = [feedback for category in response.values() for feedback in category.values()]
+    # Step 6: Extract suggestions from response
+    try:
+      suggestions = [feedback for category in response.values() for feedback in category.values()]
+    except Exception as e:
+      suggestions = []
 
-    # Step 6: Return the feedback
+    # Step 7: Return the feedback
     return {
         "missing_keywords": missing_keywords,
         "suggestions": suggestions

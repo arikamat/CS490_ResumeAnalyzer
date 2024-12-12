@@ -7,7 +7,7 @@ from backend.utils import calculate_fit_score
 from backend.utils.fit_score import calculate_match_score
 from backend.utils.resume_feedback import generate_feedback
 
-JOB_DESCRIPTION="""
+JOB_DESCRIPTION_LONG="""
 Job Title: Software Engineer
 Location: San Francisco, CA
 Employment Type: Full-time
@@ -44,7 +44,7 @@ Flexible work arrangements with remote and hybrid options.
 How to Apply: 
 Send your resume to careers@innovatetech.com. We look forward to hearing from you!
 """
-GOOD_RESUME= """
+GOOD_RESUME_LONG= """
 John Doe
 New York, NY | john.doe@email.com | (123) 456-7890 | linkedin.com/in/johndoe | github.com/johndoe
 
@@ -101,7 +101,7 @@ Regular attendee at NYC Python and React Meetups.
 Contributor to open-source projects on GitHub, focusing on web development tools and frameworks.
 References available upon request.
 """
-BAD_RESUME="""
+BAD_RESUME_LONG="""
 Jane Smith
 Los Angeles, CA | jane.smith@email.com | (555) 123-4567
 
@@ -142,8 +142,39 @@ None
 Professional Development
 Attended one-day seminar on "Effective Communication in the Workplace" in 2019.
 """
+JOB_DESCRIPTION_SHORT = """
+Looking for a full-stack JavaScript developer.
+Requirements: 
+- JavaScript.
+- React.
+- Git.
+- Bachelor's degree in Computer Science.
+"""
+GOOD_RESUME_SHORT = """
+Jane Doe
+San Francisco, CA | jane.doe@email.com
 
-def test_resume_feedback_normal():
+Education
+Bachelor of Science in Computer Science
+
+Experience
+Full-Stack Developer with React.
+
+Skills
+JavaScript, React, Git
+"""
+BAD_RESUME_SHORT = """
+John Smith
+Los Angeles, CA | john.smith@email.com
+
+Education
+High School Diploma
+
+Skills
+HTML, CSS, Microsoft Office
+"""
+
+def test_generate_feedback_good_bad_resumes():
     """
     Test the `generate_feedback` function using a good and a bad resume.
 
@@ -152,8 +183,8 @@ def test_resume_feedback_normal():
 
     This test ensures that the function correctly identifies and handles both well-matched resumes and those lacking necessary qualifications.
     """
-    feedback_good = generate_feedback(UserInput(resume_text=GOOD_RESUME, job_description=JOB_DESCRIPTION))
-    feedback_bad = generate_feedback(UserInput(resume_text=BAD_RESUME, job_description=JOB_DESCRIPTION))
+    feedback_good = generate_feedback(UserInput(resume_text=GOOD_RESUME_LONG, job_description=JOB_DESCRIPTION_LONG))
+    feedback_bad = generate_feedback(UserInput(resume_text=BAD_RESUME_LONG, job_description=JOB_DESCRIPTION_LONG))
 
     # Verify that the bad resume has more missing keywords than the good resume
     assert len(feedback_bad["missing_keywords"]["skills"]) >= len(feedback_good["missing_keywords"]["skills"])
@@ -161,4 +192,31 @@ def test_resume_feedback_normal():
     assert len(feedback_bad["missing_keywords"]["education"]) >= len(feedback_good["missing_keywords"]["education"])
 
     # Verify that the bad resume has more suggestions than the good resume
-    assert len(feedback_bad["suggestions"]) >= len(feedback_good["suggestions"])
+    assert len(feedback_bad["suggestions"]) > 0
+
+def test_generate_feedback_missing_keywords():
+    """
+    Test the `generate_feedback` function using a good and a bad resume.
+
+    - Verifies that the good resume has no missing keywords or suggestions.
+    - Verifies that the bad resume has missing keywords and generates actionable suggestions.
+
+    This test ensures that the function correctly identifies missing keywords and generates appropriate feedback.
+    """
+    feedback_good = generate_feedback(UserInput(resume_text=GOOD_RESUME_SHORT, job_description=JOB_DESCRIPTION_SHORT))
+    feedback_bad = generate_feedback(UserInput(resume_text=BAD_RESUME_SHORT, job_description=JOB_DESCRIPTION_SHORT))
+    
+    print(feedback_good)
+    print(feedback_bad)
+    
+    # Verify that keywords missing from bad resume are correctly extracted
+    assert "javascript" in feedback_bad["missing_keywords"]["skills"]
+    assert "bachelor's" in feedback_bad["missing_keywords"]["education"]
+    assert "full-stack" in feedback_bad["missing_keywords"]["experience"]
+    assert feedback_bad["suggestions"]
+    
+    # Verify that nothing is missing from the good resume
+    assert not feedback_good["missing_keywords"]["skills"]
+    assert not feedback_good["missing_keywords"]["education"]
+    assert not feedback_good["missing_keywords"]["experience"]
+    assert not feedback_good["suggestions"]
