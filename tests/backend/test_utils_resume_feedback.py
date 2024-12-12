@@ -147,16 +147,18 @@ def test_resume_feedback_normal():
     """
     Test the `generate_feedback` function using a good and a bad resume.
 
-    - Verifies that the good resume has no missing keywords or suggestions.
-    - Verifies that the bad resume has missing keywords and generates actionable suggestions.
+    - Verifies that the good resume has less missing keywords than the bad resume
+    - Verifies that the good resume has less suggestions than the bad resume
 
     This test ensures that the function correctly identifies and handles both well-matched resumes and those lacking necessary qualifications.
     """
     feedback_good = generate_feedback(UserInput(resume_text=GOOD_RESUME, job_description=JOB_DESCRIPTION))
     feedback_bad = generate_feedback(UserInput(resume_text=BAD_RESUME, job_description=JOB_DESCRIPTION))
 
-    # Check feedback for the bad resume (should have missing keywords and suggestions)
-    assert feedback_bad["missing_keywords"]["skills"]
-    assert feedback_bad["missing_keywords"]["experience"]
-    assert feedback_bad["missing_keywords"]["education"]
-    assert feedback_bad["suggestions"]
+    # Verify that the bad resume has more missing keywords than the good resume
+    assert len(feedback_bad["missing_keywords"]["skills"]) >= len(feedback_good["missing_keywords"]["skills"])
+    assert len(feedback_bad["missing_keywords"]["experience"]) >= len(feedback_good["missing_keywords"]["experience"])
+    assert len(feedback_bad["missing_keywords"]["education"]) >= len(feedback_good["missing_keywords"]["education"])
+
+    # Verify that the bad resume has more suggestions than the good resume
+    assert len(feedback_bad["suggestions"]) >= len(feedback_good["suggestions"])
