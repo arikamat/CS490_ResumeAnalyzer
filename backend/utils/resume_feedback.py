@@ -50,9 +50,16 @@ def generate_feedback(user_input: UserInput):
     """
     # Step 1: Calculate the fit score and missing schema
     fit_score, missing_schema = calculate_fit_score(user_input)
+    
+    categories = ["skills", "experience", "education"]
+    
+    if missing_schema == []:
+      return {
+        "missing_keywords": {category: [] for category in categories},
+        "suggestions": []
+      }
 
     # Step 2: Extract missing keywords
-    categories = ["skills", "experience", "education"]
     missing_keywords = {category: getattr(missing_schema, category) for category in categories}
 
     # Step 3: Check if all entries in missing_keywords are empty
@@ -73,19 +80,22 @@ def generate_feedback(user_input: UserInput):
     while retry < max_retries:
         try:
             response = prompt_nlp_model(prompt)
-            response = json.loads(response)
             break
         except Exception as e:
             retry += 1
-            # response = None
+            response = None
             pass
-          
-    if not response or not isinstance(response, dict):
+
+    if not response:
       return {"missing_keywords": missing_keywords, "suggestions": []}
 
     # Step 6: Extract suggestions from response
     try:
-      suggestions = [feedback for category in response.values() for feedback in category.values()]
+      suggestions = []
+      for category in response.values():
+          for keyword, feedback in category.items():
+              suggestions.append(feedback)
+
     except Exception as e:
       suggestions = []
 

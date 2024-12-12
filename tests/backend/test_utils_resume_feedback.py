@@ -8,139 +8,132 @@ from backend.utils.fit_score import calculate_match_score
 from backend.utils.resume_feedback import generate_feedback
 
 JOB_DESCRIPTION_LONG="""
-Job Title: Software Engineer
-Location: San Francisco, CA
-Employment Type: Full-time
+Job Title: Software Engineer  
+Location: Remote  
+Employment Type: Full-time  
 
-About Us: 
-We are a dynamic team dedicated to building scalable, user-friendly applications. Join us to create innovative solutions using cutting-edge technologies!
+About Us:  
+Join our fast-growing tech company specializing in scalable, cloud-based solutions. We're looking for a driven and innovative software engineer to contribute to our cutting-edge applications.  
 
-Responsibilities:
-Develop, test, and maintain web applications using Python and React, focusing on creating intuitive user interfaces for our enterprise-level project management platform.
-Collaborate with cross-functional teams to define and implement new features, working closely with product managers and UX designers to bring innovative solutions to life.
-Write clean, maintainable, and efficient code, adhering to best practices and maintaining high-quality code standards.
-Debug and resolve software issues promptly, ensuring minimal downtime and optimal system performance.
-Stay updated with emerging technologies and best practices, continuously improving our technical approach and team capabilities.
+Responsibilities:  
+- Develop, test, and maintain robust backend systems using Python and Django.  
+- Create responsive and dynamic user interfaces with React and TypeScript.  
+- Optimize database performance with PostgreSQL and MongoDB for handling large-scale data.  
+- Design and integrate RESTful APIs to ensure seamless frontend-backend communication.  
+- Collaborate with DevOps teams to implement CI/CD pipelines using Docker and GitHub Actions.  
+- Debug and resolve critical software issues in production environments.  
+- Participate in Agile sprints and contribute to technical documentation.  
 
-Requirements:
-Proficiency in Python and React, with at least 3 years of hands-on experience in building full-stack web applications.
-Experience with RESTful APIs and frontend-backend integration, demonstrating ability to create seamless, responsive applications.
-Familiarity with version control systems (e.g., Git), with proven experience in collaborative development environments.
-Strong problem-solving and communication skills, able to explain complex technical concepts to both technical and non-technical team members.
-Bachelor's degree in Computer Science or related field, or equivalent experience from industry work.
+Requirements:  
+- Proficiency in Python and React.  
+- Experience with TypeScript and modern JavaScript frameworks.  
+- Hands-on experience with databases (PostgreSQL and MongoDB).  
+- Knowledge of RESTful API design and integration.  
+- Familiarity with CI/CD tools (Docker, GitHub Actions).  
+- Strong debugging, communication, and problem-solving skills.  
+- Bachelor's degree in Computer Science or related field, or equivalent experience.  
 
-Nice-to-Have:
-Experience with cloud platforms (e.g., AWS, Azure), particularly in deploying and managing scalable cloud infrastructure.
-Knowledge of databases (SQL/NoSQL), including PostgreSQL, MongoDB, or similar database technologies.
-Familiarity with testing frameworks and CI/CD pipelines, such as Jenkins, Travis CI, or GitHub Actions.
+Nice-to-Have:  
+- Experience with cloud platforms (AWS, Azure).  
+- Exposure to DevOps practices and tools (e.g., Kubernetes, Terraform).  
+- Open-source contributions or personal projects demonstrating technical innovation.  
 
-What We Offer:
-Competitive salary range of $120,000 - $160,000 per year, commensurate with experience.
-Comprehensive benefits package including health, dental, and vision insurance.
-Opportunity to work on exciting and impactful projects that drive technological innovation.
-Supportive and growth-focused team environment with regular professional development opportunities.
-Flexible work arrangements with remote and hybrid options.
+What We Offer:  
+- Competitive salary: $100,000 - $140,000/year.  
+- Comprehensive benefits package (health, dental, vision).  
+- Flexible work hours and remote options.  
+- Professional growth opportunities and learning stipends.  
 
-How to Apply: 
-Send your resume to careers@innovatetech.com. We look forward to hearing from you!
+How to Apply:  
+Submit your resume and a brief cover letter to careers@cloudinnovators.com.  
 """
 GOOD_RESUME_LONG= """
-John Doe
-New York, NY | john.doe@email.com | (123) 456-7890 | linkedin.com/in/johndoe | github.com/johndoe
+John Overachiever  
+San Francisco, CA | john.overachiever@email.com | (123) 456-7890 | linkedin.com/in/overachiever | github.com/overachiever  
 
-Objective
-Passionate software engineer with 3+ years of experience in building scalable web applications. Skilled in Python, React, and modern development tools. Seeking to contribute expertise in full-stack development to drive impactful solutions.
+Objective  
+Visionary software engineer with 10+ years of experience in backend, frontend, and cloud infrastructure development. Seeking to leverage deep technical expertise to drive innovation and scalability at Cloud Innovators.  
 
-Education
-Bachelor of Science in Computer Science
-New York University, New York, NY | Graduation Date: May 2020
+Education  
+Ph.D. in Computer Science  
+Stanford University, CA | Graduation Date: May 2015  
 
-Technical Skills
-Programming Languages: Python, JavaScript, TypeScript
-Frontend: React, Redux, Tailwind CSS
-Backend: Flask, FastAPI, Django, Node.js
-Databases: PostgreSQL, MongoDB
-Tools & Platforms: Git, Docker, AWS, RESTful APIs
-Testing: Jest, PyTest, Cypress
-Other: Agile, CI/CD
-Professional Experience
-Software Engineer
-TechSolutions Inc., New York, NY | June 2020 – Present
+Master of Science in Computer Science  
+Massachusetts Institute of Technology (MIT), MA | Graduation Date: May 2012  
 
-Designed and implemented web applications using Python (FastAPI) and React, improving performance by 30%.
-Developed and consumed RESTful APIs to ensure seamless communication between frontend and backend systems.
-Collaborated with product teams to create user-friendly, responsive interfaces.
-Automated test coverage with PyTest and Jest, resulting in 25% fewer production bugs.
-Deployed applications to AWS using Docker and managed CI/CD pipelines for faster releases.
-Frontend Developer Intern`
-Innovate Labs, Brooklyn, NY | Jan 2020 – May 2020
+Bachelor of Science in Computer Science  
+University of California, Berkeley, CA | Graduation Date: May 2010  
 
-Built dynamic and responsive components using React and Redux for a customer-facing web platform.
-Enhanced UI/UX design by integrating Tailwind CSS, boosting customer satisfaction by 20%.
-Worked closely with backend developers to consume REST APIs efficiently.
-Backend Developer Intern
-NextGen Tech, Jersey City, NJ | May 2019 – Aug 2019
+Technical Skills  
+Programming Languages: Python, JavaScript, TypeScript, Go, Rust, Java  
+Frontend: React, Vue.js, Angular, Redux, Tailwind CSS  
+Backend: Django, FastAPI, Flask, Spring Boot, Node.js  
+Databases: PostgreSQL, MongoDB, DynamoDB, MySQL  
+Cloud & DevOps: AWS, Azure, Google Cloud, Kubernetes, Terraform, Jenkins  
+Testing: PyTest, Cypress, Selenium, JUnit, Jest  
+Other: Agile, Scrum, DevOps, CI/CD  
 
-Developed RESTful API endpoints using Flask to support a large-scale ecommerce platform.
-Implemented database models in PostgreSQL, optimizing query performance by 15%.
-Created detailed API documentation to facilitate seamless frontend-backend collaboration.
-Projects
-TaskFlow (Personal Project)
+Professional Experience  
 
-Developed a task management web app with Python (Flask) and React, supporting real-time updates using WebSockets.
-Integrated user authentication and role-based access control with JWT.
-RecipeMaster (Team Project)
+Principal Software Engineer  
+TechWorld Corp., San Francisco, CA | June 2017 – Present  
+- Architected scalable microservices architecture, reducing latency by 40%.  
+- Led a team of 20 engineers to deliver a mission-critical enterprise SaaS platform.  
+- Designed and deployed CI/CD pipelines using Docker and Kubernetes on AWS.  
+- Spearheaded database optimization, handling over 1 billion queries/day on PostgreSQL and MongoDB.  
 
-Built a recipe-sharing platform using Django and React, including features like search, filters, and user reviews.
-Deployed the application on AWS and maintained a CI/CD pipeline with GitHub Actions.
-Certifications
-AWS Certified Developer – Associate
-React Nanodegree – Udacity
-Professional Development
-Regular attendee at NYC Python and React Meetups.
-Contributor to open-source projects on GitHub, focusing on web development tools and frameworks.
-References available upon request.
+Senior Software Engineer  
+Cloud Solutions Inc., Seattle, WA | June 2012 – May 2017  
+- Developed robust backend systems with Django and Flask, powering high-traffic applications.  
+- Implemented advanced RESTful API frameworks, improving integration efficiency by 50%.  
+- Built responsive React-based UIs for enterprise clients.  
+
+Projects  
+CloudSync (Open Source)  
+- Developed a cross-platform cloud synchronization tool with Go and React.  
+- Over 50,000 stars on GitHub and adopted by major enterprises.  
+
+Certifications  
+AWS Certified Solutions Architect – Professional  
+Google Cloud Professional Data Engineer  
+
+References available upon request.  
 """
 BAD_RESUME_LONG="""
-Jane Smith
-Los Angeles, CA | jane.smith@email.com | (555) 123-4567
+Jane Doe  
+Smalltown, USA | jane.doe@email.com | (555) 123-4567  
 
-Objective
-Looking for any job that pays well, preferably with minimal effort.
+Objective  
+Looking for a simple, low-stress job in tech.  
 
-Education
-High School Diploma
-Springfield High School, Springfield, USA | Graduation Date: June 2016
+Education  
+High School Diploma  
+Smalltown High School, USA | Graduation Date: May 2018  
 
-Technical Skills
-Proficient in Microsoft Word and Excel
-Typing speed of 50 words per minute
-Basic internet browsing skills
-Professional Experience
-Cashier
-Burger Town, Los Angeles, CA | May 2018 – Aug 2020
+Technical Skills  
+- Typing speed: 40 WPM  
+- Basic Microsoft Word and Excel skills  
+- Internet browsing  
 
-Handled cash and credit card transactions.
-Restocked napkins and condiments.
-Cleaned tables and counters.
-Customer Service Representative
-CallTime Solutions, Los Angeles, CA | Sep 2020 – Present
+Professional Experience  
 
-Answered customer calls about billing issues.
-Used a company-provided script to assist customers.
-Escalated complex issues to supervisors.
-Projects
-DIY Garden Blog (Personal Hobby)
+Cashier  
+Corner Mart, Smalltown, USA | June 2020 – Present  
+- Handled cash and processed credit card transactions.  
+- Stocked shelves and cleaned aisles.  
 
-Started a blog about growing houseplants.
-Posted twice in 2021.
-Photography Portfolio (Unfinished)
+Front Desk Assistant  
+Smalltown Gym, Smalltown, USA | Jan 2019 – May 2020  
+- Answered phone calls and scheduled gym memberships.  
+- Maintained cleanliness of the reception area.  
 
-Took random pictures on my phone to post on social media.
-Certifications
-None
-Professional Development
-Attended one-day seminar on "Effective Communication in the Workplace" in 2019.
+Projects  
+- Created a blog using a free online template but never published it.  
+
+Certifications  
+None  
+
+References available upon request.  
 """
 JOB_DESCRIPTION_SHORT = """
 Looking for a full-stack JavaScript developer.
@@ -192,7 +185,7 @@ def test_generate_feedback_good_bad_resumes():
     assert len(feedback_bad["missing_keywords"]["education"]) >= len(feedback_good["missing_keywords"]["education"])
 
     # Verify that the bad resume has more suggestions than the good resume
-    assert len(feedback_bad["suggestions"]) > 0
+    assert len(feedback_bad["suggestions"]) > len(feedback_good["suggestions"])
 
 def test_generate_feedback_missing_keywords():
     """
@@ -220,3 +213,20 @@ def test_generate_feedback_missing_keywords():
     assert not feedback_good["missing_keywords"]["education"]
     assert not feedback_good["missing_keywords"]["experience"]
     assert not feedback_good["suggestions"]
+    
+def test_generate_feedback_missing_job_description():
+    """
+    Test the `generate_feedback` function when the job description is empty.
+
+    - Verifies that no keywords are flagged as missing.
+    - Verifies that no suggestions are generated.
+    """
+    feedback = generate_feedback(UserInput(resume_text=GOOD_RESUME_SHORT, job_description=""))
+    
+    # Ensure no keywords are flagged as missing
+    assert not feedback["missing_keywords"]["skills"]
+    assert not feedback["missing_keywords"]["education"]
+    assert not feedback["missing_keywords"]["experience"]
+    
+    # Ensure no suggestions are generated
+    assert not feedback["suggestions"], "Suggestions should not be generated without a job description."
