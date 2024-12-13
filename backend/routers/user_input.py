@@ -1,9 +1,11 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, Request, status, HTTPException
 from pydantic import ValidationError
 from backend.schemas import UserInput
 from backend.utils import prompt_nlp_model
 from backend.schemas import FitScore
 from backend.utils import calculate_fit_score
+from backend.utils import get_jwt_token
+from backend.db import resume_jobdescrip_db
 
 router = APIRouter()
 
@@ -31,7 +33,7 @@ Return ONLY the JSON output and nothing else.
 
 
 @router.post("/api/analyze")
-async def accept_user_input(user_input: UserInput):
+async def accept_user_input(request: Request):
     """
     Takes the input from the front end and prompts the API
 
@@ -42,6 +44,12 @@ async def accept_user_input(user_input: UserInput):
         JSON: a dictionary with the information regarding the prompt and response
 
     """
+    jwt = get_jwt_token(request)
+    if not jwt:
+        raise HTTPException(status_code=400, detail={"error": "invalid jwt"})
+    userinput = resume_jobdescrip_db[jwt]
+
+    user_input = UserInput(**userinput)
     # if resume text field is empty
     if not user_input.resume_text:
         raise HTTPException(status_code=400, detail={"error": "Missing resume text"})
@@ -91,6 +99,8 @@ async def accept_user_input(user_input: UserInput):
 
     except ValidationError:
         return {"error": "Cannot fit API response into FitScore"}
+    
+    
     ai_score = response_json["fit_score"]
     score, missing, matched = calculate_fit_score(user_input)
     response_json["fit_score"] = (ai_score + score*100)/2
