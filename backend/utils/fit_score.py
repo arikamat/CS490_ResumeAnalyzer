@@ -227,4 +227,5 @@ def calculate_fit_score(user_input: UserInput):
     print(job_keywords)
     print(resume_keywords)
     missing_schema = CategoricalKeyword(**missing)
-    return fit_score, missing_schema
+    matched_schema = CategoricalKeyword(**matched)
+    return fit_score, missing_schema,matched_schema

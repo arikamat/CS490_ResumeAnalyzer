@@ -92,7 +92,7 @@ async def accept_user_input(user_input: UserInput):
     except ValidationError:
         return {"error": "Cannot fit API response into FitScore"}
     ai_score = response_json["fit_score"]
-    score, missing = calculate_fit_score(user_input)
+    score, missing, matched = calculate_fit_score(user_input)
     response_json["fit_score"] = (ai_score + score*100)/2
     response_json["missing_keywords"] = missing
     return response_json
