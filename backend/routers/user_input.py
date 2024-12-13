@@ -6,6 +6,7 @@ from backend.schemas import FitScore
 from backend.utils import calculate_fit_score
 from backend.utils import get_jwt_token
 from backend.db import resume_jobdescrip_db
+from backend.utils.resume_feedback import generate_feedback
 
 router = APIRouter()
 
@@ -103,7 +104,10 @@ async def accept_user_input(request: Request):
     
     ai_score = response_json["fit_score"]
     score, missing, matched = calculate_fit_score(user_input)
+    feedback = generate_feedback(user_input)
+    
     response_json["fit_score"] = (ai_score + score*100)/2
     response_json["missing_keywords"] = missing.model_dump()
     response_json["matched_keywords"] = matched.model_dump()
+    response_json["feedback"] = feedback
     return response_json
