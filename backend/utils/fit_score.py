@@ -121,6 +121,7 @@ def calculate_match_score(job_keywords, resume_keywords, weights):
         total_fit_score (float): The overall fit score.
         scores (dict):Category-wise match scores.
         missing (dict): Missing keywords in each category.
+        matched (dict): Keywords that matched in each category
     """
     processed_resume_keywords = {
         category: process_keywords(keywords)
@@ -129,6 +130,7 @@ def calculate_match_score(job_keywords, resume_keywords, weights):
 
     scores = {}
     missing = {"skills": [], "education": [], "experience": []}
+    matched = {"skills": [], "education": [], "experience": []}
     for category, weight in weights.items():
         match_ct = 0
         for i in job_keywords[category]:
@@ -136,6 +138,7 @@ def calculate_match_score(job_keywords, resume_keywords, weights):
             matches = stemmed_and_syn.intersection(processed_resume_keywords[category])
             if len(matches) > 0:
                 match_ct += 1
+                matched[category].append(i)
             else:
                 missing[category].append(i)
         if len(job_keywords[category]) == 0:
@@ -145,7 +148,7 @@ def calculate_match_score(job_keywords, resume_keywords, weights):
 
     # Compute total fit score
     total_fit_score = sum(scores.values())
-    return total_fit_score, scores, missing
+    return total_fit_score, scores, missing, matched
 
 
 def calculate_fit_score(user_input: UserInput):
@@ -218,7 +221,7 @@ def calculate_fit_score(user_input: UserInput):
         job_keywords[category] = [x.lower() for x in job_keywords[category]]
         resume_keywords[category] = [x.lower() for x in resume_keywords[category]]
 
-    fit_score, detailed_scores, missing = calculate_match_score(
+    fit_score, detailed_scores, missing, matched = calculate_match_score(
         job_keywords, resume_keywords, WEIGHTS
     )
     print(job_keywords)
