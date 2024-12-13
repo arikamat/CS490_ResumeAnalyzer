@@ -179,7 +179,7 @@ def test_calculate_match_score_no_cat_key():
     job = {"skills": ["python"], "education": ["bachelor"], "experience": []}
     resume = {"skills": ["python"], "education": ["bachelor"], "experience": []}
     WEIGHTS = {"skills": 0.6, "experience": 0.2, "education": 0.2}
-    total, individ, missing = calculate_match_score(job,resume,WEIGHTS)
+    total, individ, missing, matched = calculate_match_score(job,resume,WEIGHTS)
     assert individ['experience'] == 0.2
     assert total == 1.0
     for i in missing:
