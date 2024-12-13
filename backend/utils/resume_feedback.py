@@ -56,7 +56,7 @@ def generate_feedback(user_input: UserInput):
     if missing_schema == []:
       return {
         "missing_keywords": {category: [] for category in categories},
-        "suggestions": []
+        "suggestions": {category: {} for category in categories}
       }
 
     # Step 2: Extract missing keywords
@@ -67,7 +67,7 @@ def generate_feedback(user_input: UserInput):
         # If there are no missing keywords, return empty suggestions 
         return {
             "missing_keywords": missing_keywords,
-            "suggestions": []
+            "suggestions": {category: {} for category in categories}
         }
 
     # Step 4: Prepare the prompt for Groq AI
@@ -87,20 +87,13 @@ def generate_feedback(user_input: UserInput):
             pass
 
     if not response:
-      return {"missing_keywords": missing_keywords, "suggestions": []}
+        return {
+            "missing_keywords": missing_keywords,
+            "suggestions": {category: {} for category in categories}
+        }
 
-    # Step 6: Extract suggestions from response
-    try:
-      suggestions = []
-      for category in response.values():
-          for keyword, feedback in category.items():
-              suggestions.append(feedback)
-
-    except Exception as e:
-      suggestions = []
-
-    # Step 7: Return the feedback
+    # Step 6: Return the feedback
     return {
         "missing_keywords": missing_keywords,
-        "suggestions": suggestions
+        "suggestions": response
     }

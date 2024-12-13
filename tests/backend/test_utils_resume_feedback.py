@@ -39,6 +39,8 @@ Skills
 HTML, CSS, Microsoft Office
 """
 
+categories = ['skills', 'experience', 'education']
+
 def test_generate_feedback_good_bad_resumes():
     """
     Test the `generate_feedback` function using a good and a bad resume.
@@ -57,7 +59,7 @@ def test_generate_feedback_good_bad_resumes():
     assert len(feedback_bad["missing_keywords"]["education"]) >= len(feedback_good["missing_keywords"]["education"])
 
     # Verify that the bad resume has more suggestions than the good resume
-    assert len(feedback_bad["suggestions"]) >= len(feedback_good["suggestions"])
+    assert sum(len(feedback_bad["suggestions"][category]) for category in categories) >= sum(len(feedback_good["suggestions"][category]) for category in categories)
 
 def test_generate_feedback_missing_keywords():
     """
@@ -73,11 +75,11 @@ def test_generate_feedback_missing_keywords():
     
     # Verify that keywords missing from bad resume are correctly extracted
     assert "javascript" in feedback_bad["missing_keywords"]["skills"]
-    assert feedback_bad["suggestions"]
+    assert any(feedback_bad["suggestions"][category] for category in categories)
     
     # Verify that nothing is missing from the good resume
     assert not feedback_good["missing_keywords"]["skills"]
-    assert not feedback_good["suggestions"]
+    assert all(not feedback_good["suggestions"][category] for category in categories)
     
 def test_generate_feedback_missing_job_description():
     """
@@ -94,4 +96,4 @@ def test_generate_feedback_missing_job_description():
     assert not feedback["missing_keywords"]["experience"]
     
     # Ensure no suggestions are generated
-    assert not feedback["suggestions"], "Suggestions should not be generated without a job description."
+    assert all(not feedback["suggestions"][category] for category in categories)
