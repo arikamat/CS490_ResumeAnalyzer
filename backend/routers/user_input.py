@@ -34,7 +34,7 @@ Return ONLY the JSON output and nothing else.
 
 
 @router.post("/api/analyze")
-async def accept_user_input(request: Request):
+async def accept_user_input(request : Request):
     """
     Takes the input from the front end and prompts the API
 
@@ -45,24 +45,30 @@ async def accept_user_input(request: Request):
         JSON: a dictionary with the information regarding the prompt and response
 
     """
+    print(request.headers)
     jwt = get_jwt_token(request)
     if not jwt:
-        raise HTTPException(status_code=400, detail={"error": "invalid jwt"})
+        print("jwt error")
+        raise HTTPException(status_code=405, detail={"error": "invalid jwt"})
+    
     userinput = resume_jobdescrip_db[jwt]
 
     user_input = UserInput(**userinput)
     # if resume text field is empty
     if not user_input.resume_text:
+        print("empty resume text field error")
         raise HTTPException(status_code=400, detail={"error": "Missing resume text"})
 
     # if job description text field is empty
     if not user_input.job_description:
+        print("empty job desc text field error")
         raise HTTPException(
             status_code=400, detail={"error": "Missing job description"}
         )
 
     # if resume input is too long
     if len(user_input.resume_text) > 10000:
+        print("resume input long error")
         raise HTTPException(
             status_code=400,
             detail={"error": "Resume text is over the 10,000 character limit"},
@@ -70,6 +76,7 @@ async def accept_user_input(request: Request):
 
     # if job description is too long
     if len(user_input.job_description) > 10000:
+        print("job desc too long")
         raise HTTPException(
             status_code=400,
             detail={"error": "Job description is over the 10,000 character limit"},
@@ -89,6 +96,7 @@ async def accept_user_input(request: Request):
 
     # if there is an error when prompting the model
     if "error" in response_json:
+        print("error in promopting model")
         raise HTTPException(
             status_code=500,
             detail={
