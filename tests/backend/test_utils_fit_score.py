@@ -4,7 +4,7 @@ import io
 import sys
 from backend.schemas.user_input import UserInput
 from backend.utils import calculate_fit_score
-from backend.utils.fit_score import calculate_match_score
+from backend.utils.fit_score import calculate_match_score, process_keyword, process_keywords
 JOB_DESCRIPTION="""
 Job Title: Software Engineer
 Location: San Francisco, CA
@@ -177,10 +177,101 @@ def test_calculate_match_score_no_cat_key():
     Test the calculate_match_score util function with empty list of keywords. Ensure that appropriate indvidiual score is assigned.
     """
     job = {"skills": ["python"], "education": ["bachelor"], "experience": []}
-    resume = {"skills": ["python"], "education": ["bachelor"], "experience": []}
+    resume = ["python", "bachelor", "cs"]
     WEIGHTS = {"skills": 0.6, "experience": 0.2, "education": 0.2}
     total, individ, missing, matched = calculate_match_score(job,resume,WEIGHTS)
     assert individ['experience'] == 0.2
     assert total == 1.0
     for i in missing:
         assert len(missing[i])==0
+def test_calculate_fit_score_partial_matches():
+    """
+    Test scenarios with partial keyword matches
+    """
+    # Create a resume with some but not all required keywords
+    partial_resume = """
+    John Doe
+    Objective: Junior software developer interested in web technologies.
+    
+    Education
+    Bachelor's Degree in Information Technology
+    
+    Skills
+    Familiar with Python
+    """
+    
+    score_partial, missing_partial, matched_partial = calculate_fit_score(
+        UserInput(resume_text=partial_resume, job_description=JOB_DESCRIPTION)
+    )
+    
+    assert 0 < score_partial < 1.0
+    assert len(missing_partial.skills) > 0
+    assert len(matched_partial.skills) > 0
+def test_process_keyword():
+    """
+    Test the process_keyword function with various input types
+    """
+    # Test basic keyword processing
+    processed = process_keyword("Python")
+    assert len(processed) > 0
+    assert "python" in processed
+
+    # Test keyword with punctuation
+    processed_punct = process_keyword("React.js")
+    assert len(processed_punct) > 0
+    
+    # Test stop word
+    processed_stop = process_keyword("the")
+    assert len(processed_stop) == 0
+def test_calculate_match_score():
+    """
+    Test the calculate_match_score function with different scenarios: perfect match and partial match
+    """
+
+    job_keywords_perfect = {
+        "skills": ["python", "react"],
+        "experience": ["web"],
+        "education": ["bachelor"]
+    }
+    resume_keywords_perfect = ["python", "react", "web", "bachelor", "cs"]
+    weights = {"skills": 0.6, "experience": 0.2, "education": 0.2}
+    
+    total_score, scores, missing, matched = calculate_match_score(job_keywords_perfect, resume_keywords_perfect, weights)
+    
+    assert total_score == 1.0
+    assert all(len(missing[cat]) == 0 for cat in missing)
+
+    job_keywords_partial = {
+        "skills": ["python", "react", "tensorflow"],
+        "experience": ["cloud", "data"],
+        "education": ["master"]
+    }
+    resume_keywords_partial = ["python", "web", "bachelor"]
+    
+    total_score, scores, missing, matched = calculate_match_score(job_keywords_partial, resume_keywords_partial, weights)
+    
+    assert 0 < total_score < 1.0
+    assert len(missing["skills"]) > 0
+    assert len(matched["skills"]) > 0
+def test_process_keywords():
+    """
+    Test the process_keywords function for keyword set generation
+    """
+    keywords = ["Python", "Tensorflow", "Machine/Learning"]
+    processed = process_keywords(keywords)
+    
+    assert len(processed) > 0
+    assert "python" in processed
+    assert "machine" in processed and "learning" in processed
+
+def test_process_keyword_advanced():
+    """
+    Test advanced scenarios for process_keyword
+    """
+    # Test synonyms
+    processed_with_syn = process_keyword("Python", synonyms=True)
+    assert len(processed_with_syn) > 0
+
+    # Test multiple word variations
+    processed_split = process_keyword("machine/learning")
+    assert "machine" in processed_split and "learning" in processed_split

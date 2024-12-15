@@ -70,10 +70,10 @@ def generate_feedback(user_input: UserInput):
             "suggestions": {category: {} for category in categories}
         }
 
-    # Step 4: Prepare the prompt for Groq AI
+    # Step 4: Prepare the prompt for gemini AI
     prompt = FEEDBACK_PROMPT + json.dumps(missing_keywords, indent=2)
 
-    # Step 5: Prompt Groq AI
+    # Step 5: Prompt gemini AI
     retry = 0
     max_retries = 5
     response = None  # Default response in case of repeated failures

@@ -86,14 +86,18 @@ def process_keyword(keyword, synonyms = False):
         set: A set containing the processed keyword, stemmed content, synonyms, and stemmed synonyms
     """
     s = set()
-    keyword = keyword.translate(str.maketrans("", "", string.punctuation))
-    if keyword.lower() in stop_words:
-        return s
-    stemmed_keyword = stemmer.stem(keyword.lower())
-    s.add(stemmed_keyword)
-    s.add(keyword.lower())
+    keyword = keyword.lower()
     if "/" in keyword:
-        s.add(keyword.split("/"))
+        s = s.union(set(keyword.split("/")))
+    keyword = keyword.translate(str.maketrans("", "", string.punctuation))
+    
+    if keyword in stop_words:
+        return s
+    stemmed_keyword = stemmer.stem(keyword)
+
+    s.add(stemmed_keyword)
+    s.add(keyword)
+    
     if synonyms:
         for synonym in get_synonyms(keyword):
             syn = synonym.lower().replace("_", " ")

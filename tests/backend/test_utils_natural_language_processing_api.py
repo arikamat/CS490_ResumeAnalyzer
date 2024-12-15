@@ -43,7 +43,7 @@ def test_valid_prompt_and_api_key():
     }
 
     #test that a json is returned
-    assert type(response_json) == dict;
+    assert type(response_json) == dict
     #test that there is a response and the response is not empty
     assert response_json["fit_score"]
     assert response_json["feedback"]
@@ -60,13 +60,13 @@ def test_invalid_api_key(monkeypatch):
     """
     
     #change API key to be invalid
-    monkeypatch.setenv("GROQ_API_KEY", "incorrect_api_key")
+    monkeypatch.setenv("GEMINI_KEY", "incorrect_api_key")
 
     #do not need to do a mock response since not using our API Key
     response_json = prompt_nlp_model("Hi")
     
     #if API key is invalid
-    assert response_json == {"error": "API KEY is invalid"}
+    assert response_json == {'error': 'AI API Error'}
     
 
 def test_missing_api_key(monkeypatch):
@@ -80,14 +80,14 @@ def test_missing_api_key(monkeypatch):
     """
 
     #change API key to be empty
-    monkeypatch.setenv("GROQ_API_KEY", "")
+    monkeypatch.setenv("GEMINI_KEY", "")
 
     #do not need to do a mock response since not using our API Key
     response_json = prompt_nlp_model("Hi")
     
 
     #if no API key provided
-    assert response_json == {"error": "No API KEY provided"}
+    assert response_json == {'error': 'AI API Error'}
 
     
 

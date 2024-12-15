@@ -40,6 +40,7 @@ jobs:
       run: |
         echo "PRIVATE_PASSWORD=${{ secrets.PRIVATE_PASSWORD }}" >> backend/.env
         echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> backend/.env
+        echo "GEMINI_KEY=${{ secrets.GEMINI_KEY }}" >> backend/.env
 
     # Run backend tests with coverage
     - name: Run backend tests with coverage
