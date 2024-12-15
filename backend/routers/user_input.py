@@ -34,7 +34,8 @@ Return ONLY the JSON output and nothing else.
 
 
 @router.post("/api/analyze")
-async def accept_user_input(request : Request):
+@router.post("/api/fit-score")
+async def accept_user_input(request: Request):
     """
     Takes the input from the front end and prompts the API
 
