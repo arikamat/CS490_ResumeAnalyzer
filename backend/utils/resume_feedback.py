@@ -1,6 +1,6 @@
 import json
 from backend.schemas.user_input import UserInput
-from backend.utils.fit_score import calculate_fit_score
+from backend.schemas import CategoricalKeyword
 from backend.utils.nlp import prompt_nlp_model
 
 FEEDBACK_PROMPT = """
@@ -34,7 +34,7 @@ Input (missing_keywords):
 """
 
 
-def generate_feedback(user_input: UserInput):
+def generate_feedback(missing_schema: CategoricalKeyword):
     """
     Generate actionable feedback based on missing keywords.
 
@@ -48,8 +48,6 @@ def generate_feedback(user_input: UserInput):
             - missing_keywords (dict): Missing keywords categorized by skills, experience, and education.
             - suggestions (dict): Actionable suggestions categorized by skills, experience, and education.
     """
-    # Step 1: Calculate the fit score and missing schema
-    fit_score, missing_schema, _ = calculate_fit_score(user_input)
 
     categories = ["skills", "experience", "education"]
 

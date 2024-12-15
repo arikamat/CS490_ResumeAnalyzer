@@ -115,7 +115,7 @@ async def accept_user_input(request: Request):
 
     ai_score = response_json["fit_score"]
     score, missing, matched = calculate_fit_score(user_input)
-    feedback = generate_feedback(user_input)
+    feedback = generate_feedback(missing)
     score *= 100
     response_json["fit_score"] = 0.25 * ai_score + 0.75 * score
     response_json["missing_keywords"] = missing.model_dump()
