@@ -76,15 +76,17 @@ def generate_feedback(user_input: UserInput):
     # Step 5: Prompt Groq AI
     retry = 0
     max_retries = 5
+    response = None  # Default response in case of repeated failures
 
     while retry < max_retries:
-        try:
-            response = prompt_nlp_model(prompt)
-            break
-        except Exception as e:
-            retry += 1
-            response = None
-            pass
+      try:
+          print(f"RF_Attempt {retry + 1}")
+          response = prompt_nlp_model(prompt)  # Call the function
+          print("Success!")
+          break  # Exit loop on success
+      except Exception as e:  # Catch specific exceptions
+          print(f"Error occurred on attempt {retry + 1}: {e}")
+          retry += 1
 
     if not response:
         return {

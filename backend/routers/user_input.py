@@ -30,6 +30,9 @@ The feedback should only provide actionable suggestions to improve the resume. D
 
 Return ONLY the JSON output and nothing else.
 
+If you can't determine fit_score or feedback due to bad quality of resume and/or job_description say 0 for fit score and empty list for feedback. My examples are just to give you an idea of what output should look like. Do not just replicate my example with no basis. 
+Make sure you are confident in your answer
+
 """
 
 
@@ -97,7 +100,7 @@ async def accept_user_input(request: Request):
 
     # if there is an error when prompting the model
     if "error" in response_json:
-        print("error in promopting model")
+        print("error in prompting model")
         raise HTTPException(
             status_code=500,
             detail={
@@ -114,8 +117,8 @@ async def accept_user_input(request: Request):
     ai_score = response_json["fit_score"]
     score, missing, matched = calculate_fit_score(user_input)
     feedback = generate_feedback(user_input)
-    
-    response_json["fit_score"] = (ai_score + score*100)/2
+    score*=100
+    response_json["fit_score"] = .25*ai_score + .75*score
     response_json["missing_keywords"] = missing.model_dump()
     response_json["matched_keywords"] = matched.model_dump()
     response_json["feedback"] = feedback
