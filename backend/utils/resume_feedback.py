@@ -1,6 +1,6 @@
 import json
 from backend.schemas.user_input import UserInput
-from backend.schemas.categorical_keyword import CategoricalKeyword
+from backend.schemas import CategoricalKeyword
 from backend.utils.nlp import prompt_nlp_model
 
 FEEDBACK_PROMPT = """
