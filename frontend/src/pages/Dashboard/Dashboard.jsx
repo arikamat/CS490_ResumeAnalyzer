@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../assets/global.css';
 import './dashboard.css';
-
+import { generatePDF } from '../../util/generatePDF';
 function Dashboard() {
   const [fitScore, setFitScore] = useState(0);
   const [matchedKeywords, setMatchedKeywords] = useState({});
@@ -94,7 +94,9 @@ function Dashboard() {
 
       {loading && <div className="loading">Loading...</div>}
       {error && <div className="error">{error}</div>}
-
+      <button onClick={() => generatePDF(fitScore, matchedKeywords, missingKeywords, improvementSuggestions)}>
+    Generate PDF
+      </button>
       <div className="panelsContainer">
         <div className="panel">
           <h3>Fit Score</h3>
