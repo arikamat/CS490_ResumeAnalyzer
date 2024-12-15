@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../assets/global.css';
-import './dashboard.css';
+import './Dashboard.css';
 import { generatePDF } from '../../util/generatePDF';
 function Dashboard() {
   const [fitScore, setFitScore] = useState(0);

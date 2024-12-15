@@ -9,6 +9,7 @@ from unittest.mock import MagicMock
 client = TestClient(app)
 response = MagicMock()
 
+
 # Test for valid resume and job description
 def test_valid_resume_and_description():
     """
@@ -17,7 +18,6 @@ def test_valid_resume_and_description():
     Takes valid resume text and job description and prompts the model
     """
 
-    
     """
     REAL TEST 
 
@@ -35,19 +35,16 @@ def test_valid_resume_and_description():
         "fit_score": 85,
         "feedback": [
             "Add skills related to project management.",
-            "Improve your summary section to include specific achievements."
-        ]
+            "Improve your summary section to include specific achievements.",
+        ],
     }
 
-    #success code
+    # success code
     assert response.status_code == 200
-    
-    #make sure the two fields we need are present
+
+    # make sure the two fields we need are present
     assert response.json()["fit_score"]
     assert response.json()["feedback"]
-
-
-
 
 
 # Test for missing resume and/or job description
@@ -58,8 +55,7 @@ def test_missing_resume_and_description():
     Takes invalid resume and/or description and makes sure correct error is returned
     """
 
-    
-    #missing resume text post
+    # missing resume text post
     """
     REAL TEST
 
@@ -71,17 +67,16 @@ def test_missing_resume_and_description():
         },
     )
     """
-    #mock values
+    # mock values
     response.status_code = 400
     response.json.return_value = {"detail": {"error": "Missing resume text"}}
 
-    #failure code
+    # failure code
     assert response.status_code == 400
-    #missing resume text error
+    # missing resume text error
     assert response.json() == {"detail": {"error": "Missing resume text"}}
 
-
-    #missing job description post
+    # missing job description post
     """
     REAL TEST
 
@@ -93,17 +88,16 @@ def test_missing_resume_and_description():
         },
     )
     """
-    #mock values
+    # mock values
     response.status_code = 400
     response.json.return_value = {"detail": {"error": "Missing job description"}}
 
-    #failure code
+    # failure code
     assert response.status_code == 400
-    #missing job description text error
+    # missing job description text error
     assert response.json() == {"detail": {"error": "Missing job description"}}
 
-
-    #missing both post
+    # missing both post
     """
     REAL TEST
 
@@ -116,19 +110,14 @@ def test_missing_resume_and_description():
     )
     """
 
-    #mock values
+    # mock values
     response.status_code = 400
     response.json.return_value = {"detail": {"error": "Missing resume text"}}
-    
-    #failure code
+
+    # failure code
     assert response.status_code == 400
-    #missing resume text error since resume is checked first
+    # missing resume text error since resume is checked first
     assert response.json() == {"detail": {"error": "Missing resume text"}}
-
-
-
-
-
 
 
 # Test for resume and/or job description being too long (len > 10000)
@@ -139,8 +128,7 @@ def test_too_long_resume_and_description():
     Takes long resume and/or job description makes sure correct error is returned
     """
 
-
-    #resume is too long
+    # resume is too long
     """
     REAL TEST
 
@@ -152,17 +140,20 @@ def test_too_long_resume_and_description():
         },
     )
     """
-    #mock values
+    # mock values
     response.status_code = 400
-    response.json.return_value = {"detail": {"error": "Resume text is over the 10,000 character limit"}}
+    response.json.return_value = {
+        "detail": {"error": "Resume text is over the 10,000 character limit"}
+    }
 
-    #failure code
+    # failure code
     assert response.status_code == 400
-    #too long resume text error
-    assert response.json() == {"detail": {"error": "Resume text is over the 10,000 character limit"}}
+    # too long resume text error
+    assert response.json() == {
+        "detail": {"error": "Resume text is over the 10,000 character limit"}
+    }
 
-
-    #job description is too long
+    # job description is too long
     """
     REAL TEST
 
@@ -174,17 +165,20 @@ def test_too_long_resume_and_description():
         },
     )
     """
-    #mock values
+    # mock values
     response.status_code = 400
-    response.json.return_value = {"detail":{"error": "Job description is over the 10,000 character limit"}}
+    response.json.return_value = {
+        "detail": {"error": "Job description is over the 10,000 character limit"}
+    }
 
-    #failure code
+    # failure code
     assert response.status_code == 400
-    #too long job description text error
-    assert response.json() == {"detail": {"error": "Job description is over the 10,000 character limit"}}
+    # too long job description text error
+    assert response.json() == {
+        "detail": {"error": "Job description is over the 10,000 character limit"}
+    }
 
-
-    #both too long
+    # both too long
     """
     REAL TEST
 
@@ -197,14 +191,18 @@ def test_too_long_resume_and_description():
     )
     """
 
-    #mock values
+    # mock values
     response.status_code = 400
-    response.json.return_value = {"detail": {"error": "Resume text is over the 10,000 character limit"}}
-    
-    #failure code
+    response.json.return_value = {
+        "detail": {"error": "Resume text is over the 10,000 character limit"}
+    }
+
+    # failure code
     assert response.status_code == 400
-    #too long resume text error since resume is checked first
-    assert response.json() == {"detail": {"error": "Resume text is over the 10,000 character limit"}}
+    # too long resume text error since resume is checked first
+    assert response.json() == {
+        "detail": {"error": "Resume text is over the 10,000 character limit"}
+    }
 
 
 # Test for missing resume and/or job description
@@ -219,8 +217,8 @@ def test_invalid_basemodel(monkeypatch):
     """
 
     monkeypatch.setattr(user_input, "prompt_format", "")
-    
-    #missing resume text post
+
+    # missing resume text post
     """
     REAL TEST
 
@@ -234,16 +232,19 @@ def test_invalid_basemodel(monkeypatch):
 
     """
 
-    #mock values
+    # mock values
     response.status_code = 500
-    response.json.return_value = {"detail": {"error": "Unable to process request at this time. Please try again later."}}
+    response.json.return_value = {
+        "detail": {
+            "error": "Unable to process request at this time. Please try again later."
+        }
+    }
 
-    #failure code
+    # failure code
     assert response.status_code == 500
-    #API call failed
-    assert response.json() == {"detail": {"error": "Unable to process request at this time. Please try again later."}}
-
-
-
-
-
+    # API call failed
+    assert response.json() == {
+        "detail": {
+            "error": "Unable to process request at this time. Please try again later."
+        }
+    }

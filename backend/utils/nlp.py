@@ -1,57 +1,35 @@
 from dotenv import load_dotenv
 import json
-from groq import Groq, AuthenticationError, APIConnectionError
 import os
+import google.generativeai as genai
 
 
 def prompt_nlp_model(prompt):
     """
-    Prompts the API and with information
+    Prompts the API and returns information
 
     Args:
-        str: A question or command for the model to fulfill
+        prompt (str): A question or command for the model to fulfill
 
     Returns:
-        JSON: a dictionary with the information regarding the prompt and response
+        JSON: A dictionary with the information regarding the prompt and response
     """
+    # Load environment variables
+    load_dotenv()
 
-    # create an instance of groq with our API key
-    client = Groq(
-        api_key=os.getenv("GROQ_API_KEY"),
-    )
+    # Create an instance of Gemini with our API key
+    genai.configure(api_key=os.getenv("GEMINI_KEY"))
+    model = genai.GenerativeModel("gemini-1.5-flash")
 
     try:
-        # API call
-        api_prompt = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
-            ],
-            model="llama3-8b-8192",
-        )
+        api_prompt = model.generate_content(prompt)
 
-        # return the information into a json format
-        text = api_prompt.choices[0].message.content
+        # Extract the response text
+        text = api_prompt.text
+        text = text.replace("```json", "").replace("```", "").replace("\n", "")
+        # Attempt to parse the response as JSON
         json_response = json.loads(text)
-
-    # if the API key is invalid
-    except AuthenticationError:
-        return {"error": "API KEY is invalid"}
-
-    # if no API key is inputted
-    except APIConnectionError:
-        return {"error": "No API KEY provided"}
-
-    # if organizing the response into FitScore doesn't work
-    except json.decoder.JSONDecodeError:
-        try:
-            text = api_prompt.choices[0].message.content + "}"
-            json_response = json.loads(text)
-        except:
-            return {"error": "API Response was not in the correct format"}
+    except:
+        return {"error": "AI API Error"}
 
     return json_response
-
-
