@@ -1,13 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
-import { useEffect, useState } from "react";
-import isJWTValid from "../util/auth";
 import { useAuth } from "../context/AuthContext";
 
-//component for navbar and links to various 
 function Navbar() {
-  const {isAuth, login, logout} = useAuth();
+  const { isAuth, logout } = useAuth();
+  const navigate = useNavigate(); 
+
+  const handleLogout = () => {
+    logout(); 
+    navigate("/"); 
+  };
 
   return (
     <nav className="navbar">
@@ -34,14 +37,13 @@ function Navbar() {
               <Link to="/dashboard" className="nav-link">Dashboard</Link>
             </li>
             <li className="nav-item">
-              <div onClick={logout} className="nav-link">Logout</div>
+              <div onClick={handleLogout} className="nav-link">Logout</div>
             </li>
           </>
         )}
-
       </ul>
     </nav>
   );
-
 }
+
 export default Navbar;
