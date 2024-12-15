@@ -33,7 +33,7 @@ jobs:
 
     - name: Download WordNet from NLTK
       run: |
-        python -c "import nltk; nltk.download('wordnet')"
+        python -c "import nltk; nltk.download('wordnet'); nltk.download('stopwords')"
         
     # Create the .env file from GitHub secrets
     - name: Create .env file
