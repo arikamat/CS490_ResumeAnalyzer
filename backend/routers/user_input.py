@@ -54,7 +54,7 @@ async def accept_user_input(request: Request):
     if not jwt:
         print("jwt error")
         raise HTTPException(status_code=405, detail={"error": "invalid jwt"})
-    
+
     userinput = resume_jobdescrip_db[jwt]
 
     user_input = UserInput(**userinput)
@@ -112,13 +112,12 @@ async def accept_user_input(request: Request):
 
     except ValidationError:
         return {"error": "Cannot fit API response into FitScore"}
-    
-    
+
     ai_score = response_json["fit_score"]
     score, missing, matched = calculate_fit_score(user_input)
     feedback = generate_feedback(user_input)
-    score*=100
-    response_json["fit_score"] = .25*ai_score + .75*score
+    score *= 100
+    response_json["fit_score"] = 0.25 * ai_score + 0.75 * score
     response_json["missing_keywords"] = missing.model_dump()
     response_json["matched_keywords"] = matched.model_dump()
     response_json["feedback"] = feedback

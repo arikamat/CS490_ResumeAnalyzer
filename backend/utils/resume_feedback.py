@@ -49,25 +49,27 @@ def generate_feedback(user_input: UserInput):
             - suggestions (dict): Actionable suggestions categorized by skills, experience, and education.
     """
     # Step 1: Calculate the fit score and missing schema
-    fit_score, missing_schema,_ = calculate_fit_score(user_input)
-    
+    fit_score, missing_schema, _ = calculate_fit_score(user_input)
+
     categories = ["skills", "experience", "education"]
-    
+
     if missing_schema == []:
-      return {
-        "missing_keywords": {category: [] for category in categories},
-        "suggestions": {category: {} for category in categories}
-      }
+        return {
+            "missing_keywords": {category: [] for category in categories},
+            "suggestions": {category: {} for category in categories},
+        }
 
     # Step 2: Extract missing keywords
-    missing_keywords = {category: getattr(missing_schema, category) for category in categories}
+    missing_keywords = {
+        category: getattr(missing_schema, category) for category in categories
+    }
 
     # Step 3: Check if all entries in missing_keywords are empty
     if all(not keywords for keywords in missing_keywords.values()):
-        # If there are no missing keywords, return empty suggestions 
+        # If there are no missing keywords, return empty suggestions
         return {
             "missing_keywords": missing_keywords,
-            "suggestions": {category: {} for category in categories}
+            "suggestions": {category: {} for category in categories},
         }
 
     # Step 4: Prepare the prompt for gemini AI
@@ -79,23 +81,20 @@ def generate_feedback(user_input: UserInput):
     response = None  # Default response in case of repeated failures
 
     while retry < max_retries:
-      try:
-          print(f"RF_Attempt {retry + 1}")
-          response = prompt_nlp_model(prompt)  # Call the function
-          print("Success!")
-          break  # Exit loop on success
-      except Exception as e:  # Catch specific exceptions
-          print(f"Error occurred on attempt {retry + 1}: {e}")
-          retry += 1
+        try:
+            print(f"RF_Attempt {retry + 1}")
+            response = prompt_nlp_model(prompt)  # Call the function
+            print("Success!")
+            break  # Exit loop on success
+        except Exception as e:  # Catch specific exceptions
+            print(f"Error occurred on attempt {retry + 1}: {e}")
+            retry += 1
 
     if not response:
         return {
             "missing_keywords": missing_keywords,
-            "suggestions": {category: {} for category in categories}
+            "suggestions": {category: {} for category in categories},
         }
 
     # Step 6: Return the feedback
-    return {
-        "missing_keywords": missing_keywords,
-        "suggestions": response
-    }
+    return {"missing_keywords": missing_keywords, "suggestions": response}

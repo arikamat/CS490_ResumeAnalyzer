@@ -4,8 +4,6 @@ import os
 import google.generativeai as genai
 
 
-
-
 def prompt_nlp_model(prompt):
     """
     Prompts the API and returns information
@@ -22,19 +20,16 @@ def prompt_nlp_model(prompt):
     # Create an instance of Gemini with our API key
     genai.configure(api_key=os.getenv("GEMINI_KEY"))
     model = genai.GenerativeModel("gemini-1.5-flash")
-    
-
 
     try:
         api_prompt = model.generate_content(prompt)
 
         # Extract the response text
         text = api_prompt.text
-        text = text.replace("```json","").replace("```","").replace("\n","")
+        text = text.replace("```json", "").replace("```", "").replace("\n", "")
         # Attempt to parse the response as JSON
         json_response = json.loads(text)
     except:
         return {"error": "AI API Error"}
 
     return json_response
-

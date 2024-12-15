@@ -7,7 +7,7 @@ from backend.schemas.user_input import UserInput
 from backend.utils.nlp import prompt_nlp_model
 
 stemmer = PorterStemmer()
-stop_words = set(stopwords.words('english'))
+stop_words = set(stopwords.words("english"))
 
 JOB_DESCRIPTION_PROMPT = """
 You are an AI trained to analyze job descriptions and extract highly specific, bite-sized keywords. Your task is to categorize these keywords into three groups: skills, experience, and education. Each keyword should be 1 word to maximize matching potential.
@@ -57,6 +57,7 @@ Input (Job Description):
 # If you can't find any dont just extract my examples. Only extract from the following input. it is okay if you can't find any keywords. just leave it as an empty list []
 # Input (Resume Text):
 
+
 # """
 def get_synonyms(word):
     """
@@ -75,7 +76,7 @@ def get_synonyms(word):
     return synonyms
 
 
-def process_keyword(keyword, synonyms = False):
+def process_keyword(keyword, synonyms=False):
     """
     Process a keyword by removing punctuation, stemming it, and adding its synonyms.
 
@@ -90,14 +91,14 @@ def process_keyword(keyword, synonyms = False):
     if "/" in keyword:
         s = s.union(set(keyword.split("/")))
     keyword = keyword.translate(str.maketrans("", "", string.punctuation))
-    
+
     if keyword in stop_words:
         return s
     stemmed_keyword = stemmer.stem(keyword)
 
     s.add(stemmed_keyword)
     s.add(keyword)
-    
+
     if synonyms:
         for synonym in get_synonyms(keyword):
             syn = synonym.lower().replace("_", " ")
@@ -187,13 +188,13 @@ def calculate_fit_score(user_input: UserInput):
         4. Returns the fit score and a schema detailing missing keywords.
     """
     basic = {"skills": [], "education": [], "experience": []}
-    if len(user_input.resume_text) ==0:
-        return 0.0,CategoricalKeyword(**basic), CategoricalKeyword(**basic)
-    if len(user_input.job_description) ==0:
-        return 0.0,CategoricalKeyword(**basic), CategoricalKeyword(**basic)
-    
+    if len(user_input.resume_text) == 0:
+        return 0.0, CategoricalKeyword(**basic), CategoricalKeyword(**basic)
+    if len(user_input.job_description) == 0:
+        return 0.0, CategoricalKeyword(**basic), CategoricalKeyword(**basic)
+
     # resume_prompt = RESUME_PROMPT + user_input.resume_text
-    job_prompt = JOB_DESCRIPTION_PROMPT + user_input.job_description.replace("/"," ")
+    job_prompt = JOB_DESCRIPTION_PROMPT + user_input.job_description.replace("/", " ")
     resume_keywords = user_input.resume_text.replace("/", " ").split()
     resume_keywords = list(set(resume_keywords))
     resume_keywords = [x.lower() for x in resume_keywords]
@@ -206,7 +207,7 @@ def calculate_fit_score(user_input: UserInput):
             print(f"FS_Attempt: {retry + 1}")
             job_keywords = prompt_nlp_model(job_prompt)
             parsed = CategoricalKeyword(**job_keywords)
-            print('Successfully parsed keywords.')
+            print("Successfully parsed keywords.")
             flag = False
         except Exception as e:
             print(f"Error occurred on attempt {retry + 1}: {e}")
@@ -221,23 +222,21 @@ def calculate_fit_score(user_input: UserInput):
             word for string in job_keywords[category] for word in string.split()
         ]
         job_keywords[category] = list(set(job_keywords[category]))
-    
 
     for category in CATEGORIES:
         job_keywords[category] = [x.lower() for x in job_keywords[category]]
-    
+
     # if job description is bogus return 0
     total_keywords = 0
     for i in job_keywords:
         total_keywords += len(job_keywords[i])
     if total_keywords == 0:
-        return 0.0,CategoricalKeyword(**basic), CategoricalKeyword(**basic)
-    
+        return 0.0, CategoricalKeyword(**basic), CategoricalKeyword(**basic)
 
     fit_score, detailed_scores, missing, matched = calculate_match_score(
-        job_keywords, resume_keywords , WEIGHTS
+        job_keywords, resume_keywords, WEIGHTS
     )
-    
+
     missing_schema = CategoricalKeyword(**missing)
     matched_schema = CategoricalKeyword(**matched)
     return fit_score, missing_schema, matched_schema

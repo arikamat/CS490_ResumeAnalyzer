@@ -4,8 +4,13 @@ import io
 import sys
 from backend.schemas.user_input import UserInput
 from backend.utils import calculate_fit_score
-from backend.utils.fit_score import calculate_match_score, process_keyword, process_keywords
-JOB_DESCRIPTION="""
+from backend.utils.fit_score import (
+    calculate_match_score,
+    process_keyword,
+    process_keywords,
+)
+
+JOB_DESCRIPTION = """
 Job Title: Software Engineer
 Location: San Francisco, CA
 Employment Type: Full-time
@@ -42,7 +47,7 @@ Flexible work arrangements with remote and hybrid options.
 How to Apply: 
 Send your resume to careers@innovatetech.com. We look forward to hearing from you!
 """
-GOOD_RESUME= """
+GOOD_RESUME = """
 John Doe
 New York, NY | john.doe@email.com | (123) 456-7890 | linkedin.com/in/johndoe | github.com/johndoe
 
@@ -99,7 +104,7 @@ Regular attendee at NYC Python and React Meetups.
 Contributor to open-source projects on GitHub, focusing on web development tools and frameworks.
 References available upon request.
 """
-BAD_RESUME="""
+BAD_RESUME = """
 Jane Smith
 Los Angeles, CA | jane.smith@email.com | (555) 123-4567
 
@@ -140,12 +145,18 @@ None
 Professional Development
 Attended one-day seminar on "Effective Communication in the Workplace" in 2019.
 """
+
+
 def test_calculate_fit_score_normal():
     """
     Test the calculate_fit_score function with a good and bad resume. Ensures that the fit score for the good resume is hgiher than that of the bad resume
     """
-    score_good, missing_good,_ = calculate_fit_score(UserInput(resume_text=GOOD_RESUME, job_description=JOB_DESCRIPTION))
-    score_bad, missing_bad,_ = calculate_fit_score(UserInput(resume_text=BAD_RESUME, job_description=JOB_DESCRIPTION))
+    score_good, missing_good, _ = calculate_fit_score(
+        UserInput(resume_text=GOOD_RESUME, job_description=JOB_DESCRIPTION)
+    )
+    score_bad, missing_bad, _ = calculate_fit_score(
+        UserInput(resume_text=BAD_RESUME, job_description=JOB_DESCRIPTION)
+    )
     print(score_good, score_bad)
     assert score_good > score_bad
 
@@ -154,23 +165,35 @@ def test_calculate_fit_score_empty_inputs():
     """
     Test the calculate_fit_score function with empty strings. Ensures that scores are 0
     """
-    score_empty_resume, missing_empty_resume,_ = calculate_fit_score(UserInput(resume_text="", job_description=JOB_DESCRIPTION))
-    score_empty_job, missing_empty_job,_ = calculate_fit_score(UserInput(resume_text=GOOD_RESUME, job_description=""))
-    score_both_empty, missing_both_empty,_ = calculate_fit_score(UserInput(resume_text="", job_description=""))
+    score_empty_resume, missing_empty_resume, _ = calculate_fit_score(
+        UserInput(resume_text="", job_description=JOB_DESCRIPTION)
+    )
+    score_empty_job, missing_empty_job, _ = calculate_fit_score(
+        UserInput(resume_text=GOOD_RESUME, job_description="")
+    )
+    score_both_empty, missing_both_empty, _ = calculate_fit_score(
+        UserInput(resume_text="", job_description="")
+    )
 
     assert score_empty_resume == 0
     assert score_empty_job == 0
     assert score_both_empty == 0
+
 
 def test_calculate_fit_score_non_string_inputs():
     """
     Test the calculate_fit_score function with non-string inputs. Ensures that an exception is raised
     """
     with pytest.raises(Exception):
-        calculate_fit_score(UserInput(resume_text=None, job_description=JOB_DESCRIPTION))
+        calculate_fit_score(
+            UserInput(resume_text=None, job_description=JOB_DESCRIPTION)
+        )
 
     with pytest.raises(Exception):
-        calculate_fit_score(UserInput(resume_text=12345, job_description=JOB_DESCRIPTION))
+        calculate_fit_score(
+            UserInput(resume_text=12345, job_description=JOB_DESCRIPTION)
+        )
+
 
 def test_calculate_match_score_no_cat_key():
     """
@@ -179,11 +202,13 @@ def test_calculate_match_score_no_cat_key():
     job = {"skills": ["python"], "education": ["bachelor"], "experience": []}
     resume = ["python", "bachelor", "cs"]
     WEIGHTS = {"skills": 0.6, "experience": 0.2, "education": 0.2}
-    total, individ, missing, matched = calculate_match_score(job,resume,WEIGHTS)
-    assert individ['experience'] == 0.2
+    total, individ, missing, matched = calculate_match_score(job, resume, WEIGHTS)
+    assert individ["experience"] == 0.2
     assert total == 1.0
     for i in missing:
-        assert len(missing[i])==0
+        assert len(missing[i]) == 0
+
+
 def test_calculate_fit_score_partial_matches():
     """
     Test scenarios with partial keyword matches
@@ -199,14 +224,16 @@ def test_calculate_fit_score_partial_matches():
     Skills
     Familiar with Python
     """
-    
+
     score_partial, missing_partial, matched_partial = calculate_fit_score(
         UserInput(resume_text=partial_resume, job_description=JOB_DESCRIPTION)
     )
-    
+
     assert 0 < score_partial < 1.0
     assert len(missing_partial.skills) > 0
     assert len(matched_partial.skills) > 0
+
+
 def test_process_keyword():
     """
     Test the process_keyword function with various input types
@@ -219,10 +246,12 @@ def test_process_keyword():
     # Test keyword with punctuation
     processed_punct = process_keyword("React.js")
     assert len(processed_punct) > 0
-    
+
     # Test stop word
     processed_stop = process_keyword("the")
     assert len(processed_stop) == 0
+
+
 def test_calculate_match_score():
     """
     Test the calculate_match_score function with different scenarios: perfect match and partial match
@@ -231,38 +260,45 @@ def test_calculate_match_score():
     job_keywords_perfect = {
         "skills": ["python", "react"],
         "experience": ["web"],
-        "education": ["bachelor"]
+        "education": ["bachelor"],
     }
     resume_keywords_perfect = ["python", "react", "web", "bachelor", "cs"]
     weights = {"skills": 0.6, "experience": 0.2, "education": 0.2}
-    
-    total_score, scores, missing, matched = calculate_match_score(job_keywords_perfect, resume_keywords_perfect, weights)
-    
+
+    total_score, scores, missing, matched = calculate_match_score(
+        job_keywords_perfect, resume_keywords_perfect, weights
+    )
+
     assert total_score == 1.0
     assert all(len(missing[cat]) == 0 for cat in missing)
 
     job_keywords_partial = {
         "skills": ["python", "react", "tensorflow"],
         "experience": ["cloud", "data"],
-        "education": ["master"]
+        "education": ["master"],
     }
     resume_keywords_partial = ["python", "web", "bachelor"]
-    
-    total_score, scores, missing, matched = calculate_match_score(job_keywords_partial, resume_keywords_partial, weights)
-    
+
+    total_score, scores, missing, matched = calculate_match_score(
+        job_keywords_partial, resume_keywords_partial, weights
+    )
+
     assert 0 < total_score < 1.0
     assert len(missing["skills"]) > 0
     assert len(matched["skills"]) > 0
+
+
 def test_process_keywords():
     """
     Test the process_keywords function for keyword set generation
     """
     keywords = ["Python", "Tensorflow", "Machine/Learning"]
     processed = process_keywords(keywords)
-    
+
     assert len(processed) > 0
     assert "python" in processed
     assert "machine" in processed and "learning" in processed
+
 
 def test_process_keyword_advanced():
     """
