@@ -95,7 +95,7 @@ function JobDescription() {
                 <button
                   type="submit"
                   disabled={!text || text.length > charLimit}
-                >Upload
+                >Upload Job Description
                 </button>
               </div>
               <div className='char-info'>
@@ -107,7 +107,7 @@ function JobDescription() {
               </div>
               <div className='message-container'>
                 {error && <p className="error">{error}</p>}
-                {success && <p className="success">{success}</p>}
+                {success && <p className="success2">{success}</p>}
               </div>
             </form>
           </div>
