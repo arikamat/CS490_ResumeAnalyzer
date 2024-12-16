@@ -111,12 +111,6 @@ jobs:
         cd frontend
         npx playwright install chromium firefox webkit
 
-    # Create frontend .env file (if needed)
-    - name: Create frontend .env file
-      run: |
-        cd frontend
-        echo "REACT_APP_SOME_KEY=${{ secrets.FRONTEND_SOME_KEY }}" >> .env
-
     # Start backend server in background
     - name: Start Backend Server
       run: |
