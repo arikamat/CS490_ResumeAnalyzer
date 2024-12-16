@@ -22,3 +22,5 @@ Step by Step Guide to Utilize:
 - Click on Dashboard to view results of analysis 
 - Able to download report by clicking download button
 - Reanalyze or gain new feedback by going back to upload
+
+For API documentation follow the instructions to setup the backend in docs/SETUP.md and after running the backend go to [backend_url]/docs to view swagger documentation
