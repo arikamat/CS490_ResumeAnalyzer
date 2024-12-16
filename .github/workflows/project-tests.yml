@@ -33,13 +33,14 @@ jobs:
 
     - name: Download WordNet from NLTK
       run: |
-        python -c "import nltk; nltk.download('wordnet')"
+        python -c "import nltk; nltk.download('wordnet'); nltk.download('stopwords')"
         
     # Create the .env file from GitHub secrets
-    - name: Create backend .env file
+    - name: Create .env file
       run: |
         echo "PRIVATE_PASSWORD=${{ secrets.PRIVATE_PASSWORD }}" >> backend/.env
         echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> backend/.env
+        echo "GEMINI_KEY=${{ secrets.GEMINI_KEY }}" >> backend/.env
 
     # Run backend tests with coverage
     - name: Run backend tests with coverage
@@ -72,8 +73,6 @@ jobs:
         cd frontend
         npm install
 
-    
-
     # Run frontend tests with coverage
     - name: Run frontend tests with coverage
       run: |
@@ -86,7 +85,6 @@ jobs:
       with:
         name: frontend-coverage
         path: frontend/coverage
-
   playwright-tests:
     runs-on: ubuntu-latest
 
@@ -113,6 +111,11 @@ jobs:
         cd frontend
         npx playwright install chromium firefox webkit
 
+    # Create frontend .env file (if needed)
+    - name: Create frontend .env file
+      run: |
+        cd frontend
+        echo "REACT_APP_SOME_KEY=${{ secrets.FRONTEND_SOME_KEY }}" >> .env
 
     # Start backend server in background
     - name: Start Backend Server
