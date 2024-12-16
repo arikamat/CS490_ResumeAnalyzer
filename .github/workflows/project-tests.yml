@@ -105,17 +105,16 @@ jobs:
         cd frontend
         npm install
 
-    # Install Playwright browsers
-    - name: Install Playwright browsers
-      run: |
-        cd frontend
-        npx playwright install chromium firefox webkit
+    # # Install Playwright browsers
+    # - name: Install Playwright browsers
+    #   run: |
+    #     cd frontend
+    #     npx playwright install chromium firefox webkit
 
     # Start backend server in background
     - name: Start Backend Server
       run: |
-        cd backend
-        python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
+        python -m uvicorn backend.main:app
         # Give the server a moment to start
         sleep 5
 
