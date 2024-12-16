@@ -3,12 +3,11 @@ from backend.routers import UserRouter
 from backend.routers import ResumeUploadRouter
 from backend.routers import LoginRouter
 from backend.routers import JobDescriptionRouter
+from backend.routers import UserInputRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-origins = [
-    "http://localhost:5173",  # React frontend
-]
+origins = ["http://localhost:5173", " http://127.0.0.1:5173/"]  # React frontend
 
 app.add_middleware(
     CORSMiddleware,
@@ -23,3 +22,4 @@ app.include_router(UserRouter)
 app.include_router(ResumeUploadRouter)
 app.include_router(LoginRouter)
 app.include_router(JobDescriptionRouter)
+app.include_router(UserInputRouter)
