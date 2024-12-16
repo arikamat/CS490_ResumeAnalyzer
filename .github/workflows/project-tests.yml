@@ -137,7 +137,8 @@ jobs:
     # Start backend server in background
     - name: Start Backend Server
       run: |
-        python -m uvicorn backend.main:app
+        nohup python -m uvicorn backend.main:app &>/dev/null &
+        disown
 
     # Start frontend dev server in background
     - name: Start Frontend Dev Server
