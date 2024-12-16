@@ -146,7 +146,8 @@ jobs:
         cd frontend
         npm run dev &
         # Give the server a moment to start
-
+    - name: Install playwright browsers
+      run: npx playwright install --with-deps
     # Run Playwright tests
     - name: Run Playwright tests
       run: |
