@@ -1,13 +1,18 @@
-import { test, expect } from '@playwright/test'; 
+import { test, expect } from '@playwright/test';  
 import fs from 'fs';
 import path from 'path';
 
 test('Signup, Login, and Upload Flow', async ({ page }) => {
-  const testEmail = 'testuser8@example.com';
+  const testEmail = 'testuser16@example.com';
   const testUsername = 'testuser';
   const testPassword = 'password123';
   const testFilePath = './tests/resume.pdf';
   const testJobDescription = 'This is a test job description for validation purposes.';
+  const downloadDir = path.resolve('./downloads');
+  //create folder :(
+  if (!fs.existsSync(downloadDir)) {
+    fs.mkdirSync(downloadDir);
+  }
 
   await page.goto('/register');
   await page.fill('input[placeholder="Email"]', testEmail);
@@ -38,11 +43,16 @@ test('Signup, Login, and Upload Flow', async ({ page }) => {
 
   await page.goto('/dashboard');
   const downloadPromise = page.waitForEvent('download');
+
+  await page.waitForTimeout(3000);
   await page.click('button:has-text("Generate PDF")');
-  // const download = await downloadPromise;
-  // const downloadPath = path.resolve(process.cwd(), 'resume');
-  // await download.saveAs(downloadPath);
-  // expect(fs.existsSync(downloadPath)).toBe(true);
-  // const fileContent = fs.readFileSync(downloadPath);
-  // expect(fileContent.slice(0, 4).toString()).toBe('%PDF');
+
+
+  const download = await downloadPromise;
+
+  const downloadPath = path.join(downloadDir, 'generated.pdf');
+  await download.saveAs(downloadPath);
+
+  const fileExists = fs.existsSync(downloadPath);
+  expect(fileExists).toBeTruthy();
 });
