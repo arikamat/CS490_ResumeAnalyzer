@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "jest",
     "lint:fix": "eslint src/ --fix",
-    "e2etest": "npx playwright test"
+    "e2etest": "npx playwright test",
+    "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },
   "dependencies": {
     "@babel/core": "^7.26.0",
@@ -44,6 +45,7 @@
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.13.0",
     "jest-environment-jsdom": "^29.7.0",
+    "prettier": "^3.4.2",
     "vite": "^5.4.10"
   },
   "jest": {

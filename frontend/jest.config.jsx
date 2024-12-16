@@ -5,5 +5,5 @@
 //   testEnvironment: 'jest-environment-jsdom',
 //   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
 //   transformIgnorePatterns: ['<rootDir>/node_modules/(?!axios)'],
-//   testPathIgnorePatterns: ['<rootDir>/playwright_tests/'], 
+//   testPathIgnorePatterns: ['<rootDir>/playwright_tests/'],
 // };
