@@ -36,7 +36,7 @@ jobs:
         python -c "import nltk; nltk.download('wordnet')"
         
     # Create the .env file from GitHub secrets
-    - name: Create .env file
+    - name: Create backend .env file
       run: |
         echo "PRIVATE_PASSWORD=${{ secrets.PRIVATE_PASSWORD }}" >> backend/.env
         echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> backend/.env
@@ -72,6 +72,8 @@ jobs:
         cd frontend
         npm install
 
+    
+
     # Run frontend tests with coverage
     - name: Run frontend tests with coverage
       run: |
@@ -84,3 +86,52 @@ jobs:
       with:
         name: frontend-coverage
         path: frontend/coverage
+
+  playwright-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Check out the repository
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    # Set up Node.js environment
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    # Install frontend dependencies
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+
+    # Install Playwright browsers
+    - name: Install Playwright browsers
+      run: |
+        cd frontend
+        npx playwright install chromium firefox webkit
+
+
+    # Start backend server in background
+    - name: Start Backend Server
+      run: |
+        cd backend
+        python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 &
+        # Give the server a moment to start
+        sleep 5
+
+    # Start frontend dev server in background
+    - name: Start Frontend Dev Server
+      run: |
+        cd frontend
+        npm run dev &
+        # Give the server a moment to start
+        sleep 5
+
+    # Run Playwright tests
+    - name: Run Playwright tests
+      run: |
+        cd frontend
+        npx playwright test
